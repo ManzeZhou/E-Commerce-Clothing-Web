@@ -5,9 +5,8 @@ import {useSelector} from "react-redux";
 export const GenderFilter = () => {
     const rawData = useSelector(state => state?.LuLuReducer?.rawData)
 
-    const genderFilter = rawData?.filters?.Gender
+    const genderFilter = rawData?.filters?.Gender;
 
-    console.log(genderFilter)
     return (
         <div>
             <h1>Gender</h1>

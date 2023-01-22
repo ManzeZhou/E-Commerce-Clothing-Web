@@ -1,23 +1,24 @@
 import {useSelector} from "react-redux";
 import {useState} from "react";
 
-export const CategoryFilter = () => {
+ const ActivityFilter = () => {
     const rawData = useSelector(state => state?.LuLuReducer?.rawData)
 
-    const categoryFilter = rawData?.filters?.Category
+    const activityFilter = rawData?.filters?.Activity
 
 
-    const [hide, setHide] = useState(true)
+    const [hide, setHide] = useState(true);
 
-    const handleHide = (e) => {
+    const handleHide = () => {
         setHide(!hide)
-    }
+    };
+
     return (
         <div>
-            <h1>Gender</h1>
-            {categoryFilter && categoryFilter.map((i, index) => {
+            <h1>Activity</h1>
+            {activityFilter && activityFilter.map((i, index) => {
 
-                    // todo read more icon
+                // todo read more icon
 
                 if (!hide) {
                     return <div key={index}>
@@ -41,4 +42,4 @@ export const CategoryFilter = () => {
 
 }
 
-export default CategoryFilter;
+export default ActivityFilter;

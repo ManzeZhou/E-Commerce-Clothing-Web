@@ -41,12 +41,12 @@ function App() {
 
 
     return (
-        <div>
+        <div className='app'>
 
-            {/*{rawData &&*/}
-            {/*    <div>*/}
-            {/*        <Filter/>*/}
-            {/*    </div>}*/}
+            {rawData &&
+                <div className='main-content'>
+                    <Filter/>
+                </div>}
         </div>
 
 
