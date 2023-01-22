@@ -10,20 +10,27 @@ import {Filter} from "./component/Filter/Filter";
 
 function App() {
     const dispatch = useDispatch()
-//     const [data, setData] = useState(null);
+
+
+    // method 1
+
+// useEffect( () => {
+//      async function fetchData() {
+//          axios.get('http://api-lulu.hibitbyte.com/product/allProducts?mykey=Rfm0EUSj65L0PPLEQPxIXNgmIQX1QrP2Op2pqJLrpdBPrJO1EhE9YIPA1yOv9tXhjamor5vGwY6cnzQ7hRVy7Q==')
+//              .then(response => {
+//                  const raw = response.data.rs;
+//                  const {filters} = raw;
+
+//                  dispatch(fetchAllDataInAction(raw))
 //
-// useEffect(() => {
-//     axios.get('http://api-lulu.hibitbyte.com/product/allProducts?mykey=Rfm0EUSj65L0PPLEQPxIXNgmIQX1QrP2Op2pqJLrpdBPrJO1EhE9YIPA1yOv9tXhjamor5vGwY6cnzQ7hRVy7Q==')
-//         .then(response => {
-//             const raw = response.data.rs;
-//             const {filters} = raw;
-//             setData(JSON.stringify(filters));
-//             dispatch(fetchAllDataInAction(raw))
-//
-//         })
-//         .catch(e => console.log(e))
+//              })
+//              .catch(e => console.log(e))
+//      }
+//      fetchData();
 // }, [])
 
+
+    //method 2
 
     useEffect(() => {
         dispatch(fetchAllDataInAction())
@@ -35,10 +42,11 @@ function App() {
 
     return (
         <div>
-            {rawData &&
-                <div>
-                    <Filter/>
-                </div>}
+
+            {/*{rawData &&*/}
+            {/*    <div>*/}
+            {/*        <Filter/>*/}
+            {/*    </div>}*/}
         </div>
 
 
