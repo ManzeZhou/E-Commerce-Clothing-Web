@@ -18,7 +18,7 @@ import {useState} from "react";
             <h1>Activity</h1>
             {activityFilter && activityFilter.map((i, index) => {
 
-                // todo read more icon
+                // todo add more icon
 
                 if (!hide) {
                     return <div key={index}>

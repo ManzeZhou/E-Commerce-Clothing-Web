@@ -8,6 +8,8 @@ import {fetchAllDataInAction, fetchProductAPI} from "./action/action";
 import {Filter} from "./component/Filter/Filter";
 
 
+
+
 function App() {
     const dispatch = useDispatch()
 
@@ -50,9 +52,19 @@ function App() {
                 <div className='main-content'>
                     <Filter/>
                     <div>
-                        {products.map((product, index) => {
+                        {
+                            products.map((product, index) => {
                             return <div key={index}>
                                 {product?.images && <img src={product.images[0].mainCarousel?.media.split('|')[0]} alt={product.name} width='100px' height='100px'/>}
+
+                                {product?.swatches && product?.swatches?.map((color, index) => {
+                                    return <img
+                                        src={color?.swatch}
+                                        key={index}
+                                        alt={color?.swatchAlt}
+                                        style={{borderRadius: '50%', height: '20px', width: '20px'}}
+                                    />
+                                })}
                                 <span>{product?.name}</span>
                             </div>
                         })
