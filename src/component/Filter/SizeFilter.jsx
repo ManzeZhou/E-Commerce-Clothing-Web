@@ -9,7 +9,9 @@ const SizeFilter = () => {
 
     console.log(sizeFilter);
 
-    const cupSize = ['B','C', 'D', 'DD', 'DDD']
+    const cupSize = ['B', 'C', 'D', 'DD', 'DDD']
+
+
 
     return (
         <div>
@@ -17,32 +19,71 @@ const SizeFilter = () => {
             <div>
                 <ul>
                     {sizeFilter && sizeFilter.map((size, index) => {
-                        if(parseInt(size.name) <= 33) {
+                        // todo sizeDivider
+                        // return (size.name === 'sizeDivider' ?
+                        //
+                        //         <p>.....</p> : <li key={index}>
+                        //             <a href="">
+                        //             <span>
+                        //          {size.name}
+                        //              </span>
+                        //             </a>
+                        //         </li>
+                        // )
+
+
+                        // if(parseInt(size.name) <= 33) {
+                        //     return <li key={index}>
+                        //         <a href="">
+                        //         <span>
+                        //             {size.name}
+                        //         </span>
+                        //         </a>
+                        //     </li>
+                        // } else if(parseInt(size.name) <= 42){
+                        //     // todo add cup size
+                        //     return <li key={index}>
+                        //         <a href="">
+                        //         <span>
+                        //             {size.name}
+                        //         </span>
+                        //         </a>
+                        //     </li>
+                        // } else {
+                        //     return <li key={index}>
+                        //         <a href="">
+                        //         <span>
+                        //             {size.name}
+                        //         </span>
+                        //         </a>
+                        //     </li>
+                        // };
+
+                        if (parseInt(size.name) < 32) {
                             return <li key={index}>
                                 <a href="">
-                                <span>
-                                    {size.name}
-                                </span>
-                                </a>
-                            </li>
-                        } else if(parseInt(size.name) <= 42){
-                            // todo add cup size
-                            return <li key={index}>
-                                <a href="">
-                                <span>
-                                    {size.name}
-                                </span>
-                                </a>
-                            </li>
-                        } else {
-                            return <li key={index}>
-                                <a href="">
-                                <span>
-                                    {size.name}
-                                </span>
+                                    <span>
+                                        {size.name}
+                                    </span>
                                 </a>
                             </li>
                         }
+                        else if ( parseInt(size.name) <= 42 && parseInt(size.name) >= 32) {
+
+                            }
+
+
+
+                            // return <li key={index}>
+                            //     <a href="">
+                            //         <span>
+                            //             {size.name}
+                            //         </span>
+                            //     </a>
+                            // </li>
+
+
+
                     })}
                 </ul>
             </div>

@@ -37,7 +37,10 @@ function App() {
     }, [])
     const rawData = useSelector(state => state?.LuLuReducer?.rawData)
 
-    console.log(rawData)
+    console.log('rawData', rawData);
+
+    const products = rawData?.products;
+    console.log('products', products);
 
 
     return (
@@ -46,11 +49,22 @@ function App() {
             {rawData &&
                 <div className='main-content'>
                     <Filter/>
-                </div>}
-        </div>
+                    <div>
+                        {products.map((product, index) => {
+                            return <div key={index}>
+                                {product?.images && <img src={product.images[0].mainCarousel?.media.split('|')[0]} alt={product.name} width='100px' height='100px'/>}
+                                <span>{product?.name}</span>
+                            </div>
+                        })
+                            }
+
+                            </div>
+                            </div>}
+
+                    </div>
 
 
-    );
-}
+                    );
+                    }
 
-export default App;
+            export default App;
