@@ -13,7 +13,7 @@ export const Filter = () => {
 
     const {filters} = rawData
 
-    console.log(filters)
+
 
     // const filterNameArr = Object.keys(filters);
     // console.log('filterNameArr', filterNameArr)

@@ -7,7 +7,6 @@ const SizeFilter = () => {
 
     const sizeFilter = rawData?.filters?.Size
 
-    console.log(sizeFilter);
 
     const cupSize = ['B', 'C', 'D', 'DD', 'DDD']
 

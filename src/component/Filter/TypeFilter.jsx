@@ -18,7 +18,7 @@ import {useState} from "react";
             <h1>Type</h1>
             {typeFilter && typeFilter.map((i, index) => {
 
-                // todo read more icon
+                // todo aad more icon
 
                 if (!hide) {
                     return <div key={index}>
