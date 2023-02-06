@@ -42,7 +42,9 @@ function App() {
     const products = rawData?.products;
 
 
-    const [productId, setProductId] = useState(0);
+    const [colorId, setColorId] = useState(null);
+
+    const [productId, setProductId] = useState(null);
 
 
 
@@ -56,36 +58,48 @@ function App() {
                     <Filter/>
                     <div>
                         {
-                             products?.map((product, index) => {
+                             products?.map((product, pindex) => {
 
-                                return <div key={index}>
+                                return <div key={pindex}>
 
-                                    {product?.images && product?.images[`${productId}`].mainCarousel?.media &&
+                                    {product?.images && product?.images[0]?.mainCarousel?.media &&
+
                                         <img
-                                            src={product?.images[`${productId}`].mainCarousel?.media?.split('|')[0]}
+                                            src={parseInt(pindex) === parseInt(productId) ?
+                                                product?.images[`${colorId}`]?.mainCarousel?.media?.split('|')[0] :
+                                                product?.images[0]?.mainCarousel?.media?.split('|')[0]
+                                        }
                                             alt={product.name}
                                             width='100px'
                                             height='100px'
                                             //onMouseHover img changes
                                             onMouseEnter={(e) =>
-                                                e.target.src = product?.images[`${productId}`].mainCarousel?.media?.split('|')[0]
+                                            {
+                                                colorId ? e.target.src = product?.images[`${colorId}`]?.mainCarousel?.media?.split('|')[1] : e.target.src = product?.images[0]?.mainCarousel?.media?.split('|')[1]
+                                            }
                                             }
 
                                             onMouseLeave={(e) => {
-                                                e.target.src = product?.images[`${productId}`].mainCarousel?.media?.split('|')[1]
+                                                colorId ? e.target.src = product?.images[`${colorId}`]?.mainCarousel?.media?.split('|')[0] : e.target.src = product?.images[0]?.mainCarousel?.media?.split('|')[0]
                                             }}
-                                        />}
+                                        />
+                                    }
 
 
                                     {/* Swatch Color Circle */}
-                                    {product?.swatches && product?.swatches?.map((color, index) => {
+                                    {product?.swatches && product?.swatches?.map((color, cindex) => {
                                         return <img
                                             src={color.swatch}
-                                            key={index}
-                                            id={index}
+                                            key={cindex}
+                                            id={`${pindex}|${cindex}`}
                                             alt={color.swatchAlt}
                                             style={{borderRadius: '50%', height: '20px', width: '20px'}}
-                                            // onClick={(e) => setProductId(e.target.id)}
+                                            onMouseEnter={(e) => {
+                                                setProductId(e.target.id.split('|')[0]);
+                                                setColorId(e.target.id.split('|')[1]);
+                                                console.log('productId', e.target.id.split('|')[0]);
+                                                console.log('colorId', e.target.id.split('|')[1])
+                                            }}
                                         />
                                     })}
 
