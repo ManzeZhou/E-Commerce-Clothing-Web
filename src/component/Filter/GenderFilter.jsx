@@ -2,28 +2,26 @@ import {useSelector} from "react-redux";
 
 
 
-export const GenderFilter = () => {
-    const rawData = useSelector(state => state?.LuLuReducer?.rawData)
+export const GenderFilter = ({gender}) => {
 
 
-
-    const genderFilter = rawData?.filters?.Gender;
 
 
     return (
         <div>
             <h1>Gender</h1>
-            {genderFilter && genderFilter.map((i, index) => {
+            {gender && gender.map((i, index) => {
 
-                        return <div key={index}>
-                            <input type="checkbox"/>
-                            <label>{i.name}</label>
-                        </div>
+                                    return <div key={index}>
+                                        <input type="checkbox"/>
+                                        <label>{i.name}</label>
+                                    </div>
 
-                })
-            }
+                            })
+                        }
         </div>
     )
+
 
 
 }

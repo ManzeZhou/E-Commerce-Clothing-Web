@@ -14,7 +14,7 @@ export const CategoryFilter = () => {
     }
     return (
         <div>
-            <h1>Gender</h1>
+            <h1>Category</h1>
             {categoryFilter && categoryFilter.map((i, index) => {
 
                     // todo read more icon

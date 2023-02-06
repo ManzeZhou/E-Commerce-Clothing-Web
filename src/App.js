@@ -40,10 +40,7 @@ function App() {
 
     const rawData = useSelector(state => state?.LuLuReducer?.rawData);
 
-
-
-
-
+    const {filters} = rawData;
 
 
 
@@ -56,7 +53,7 @@ function App() {
 
             {rawData &&
                 <div className='main-content'>
-                    <Filter />
+                    <Filter filtersData={filters} />
                     <Product />
 
                 </div>}
