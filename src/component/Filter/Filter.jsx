@@ -11,21 +11,29 @@ export const Filter = () => {
 
     const rawData = useSelector(state => state?.LuLuReducer?.rawData);
 
-    const {filters} = rawData
 
 
 
-    // const filterNameArr = Object.keys(filters);
-    // console.log('filterNameArr', filterNameArr)
+
+
+
+
+
 
 
     return (
-        <div>
-            <GenderFilter />
-            <CategoryFilter />
-            <TypeFilter />
-            <ActivityFilter />
-            <SizeFilter />
-        </div>
+       <div>
+           {
+               rawData &&
+
+               <div>
+                   <GenderFilter />
+                   <CategoryFilter />
+                   <TypeFilter />
+                   <ActivityFilter />
+                   <SizeFilter />
+               </div>
+           }
+       </div>
     )
 }
