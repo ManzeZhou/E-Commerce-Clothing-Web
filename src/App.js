@@ -6,7 +6,8 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchAllDataInAction, fetchProductAPI} from "./action/action";
 import {Filter} from "./component/Filter/Filter";
-import Product from "./component/Product/Product";
+import Products from "./component/Products/Products";
+
 
 
 function App() {
@@ -40,7 +41,7 @@ function App() {
 
     const rawData = useSelector(state => state?.LuLuReducer?.rawData);
 
-    const {filters} = rawData;
+    const filters = rawData?.filters;
 
 
 
@@ -54,7 +55,7 @@ function App() {
             {rawData &&
                 <div className='main-content'>
                     <Filter filtersData={filters} />
-                    <Product />
+                    <Products />
 
                 </div>}
 

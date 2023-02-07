@@ -1,10 +1,8 @@
 import {useSelector} from "react-redux";
 import {useState} from "react";
 
- const TypeFilter = () => {
-    const rawData = useSelector(state => state?.LuLuReducer?.rawData)
+ const TypeFilter = ({type}) => {
 
-    const typeFilter = rawData?.filters?.Type
 
 
     const [hide, setHide] = useState(true)
@@ -16,7 +14,7 @@ import {useState} from "react";
     return (
         <div>
             <h1>Type</h1>
-            {typeFilter && typeFilter.map((i, index) => {
+            {type && type.map((i, index) => {
 
                 // todo aad more icon
 

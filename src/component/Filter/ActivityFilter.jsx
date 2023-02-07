@@ -1,10 +1,8 @@
 import {useSelector} from "react-redux";
 import {useState} from "react";
 
- const ActivityFilter = () => {
-    const rawData = useSelector(state => state?.LuLuReducer?.rawData)
+ const ActivityFilter = ({activity}) => {
 
-    const activityFilter = rawData?.filters?.Activity
 
 
     const [hide, setHide] = useState(true);
@@ -16,7 +14,7 @@ import {useState} from "react";
     return (
         <div>
             <h1>Activity</h1>
-            {activityFilter && activityFilter.map((i, index) => {
+            {activity && activity.map((i, index) => {
 
                 // todo add more icon
 

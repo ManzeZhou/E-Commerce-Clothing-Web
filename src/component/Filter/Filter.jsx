@@ -11,10 +11,16 @@ export const Filter = ({filtersData}) => {
 
     const rawData = useSelector(state => state?.LuLuReducer?.rawData);
 
-    console.log('filtersData from filter',filtersData);
+    const gender = filtersData?.Gender;
 
-    const gender = filtersData.Gender;
-    console.log(gender)
+    const category = filtersData?.Category;
+
+    const type = filtersData?.Type;
+
+    const activity = filtersData?.Activity;
+
+    const size = filtersData?.Size;
+
 
 
 
@@ -33,10 +39,10 @@ export const Filter = ({filtersData}) => {
 
                <div>
                    <GenderFilter gender={gender}/>
-                   <CategoryFilter />
-                   <TypeFilter />
-                   <ActivityFilter />
-                   <SizeFilter />
+                   <CategoryFilter category={category}/>
+                   <TypeFilter type={type}/>
+                   <ActivityFilter activity={activity}/>
+                   <SizeFilter size={size}/>
                </div>
            }
        </div>

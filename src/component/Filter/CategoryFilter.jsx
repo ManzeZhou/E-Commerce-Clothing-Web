@@ -1,10 +1,8 @@
 import {useSelector} from "react-redux";
 import {useState} from "react";
 
-export const CategoryFilter = () => {
-    const rawData = useSelector(state => state?.LuLuReducer?.rawData)
+export const CategoryFilter = ({category}) => {
 
-    const categoryFilter = rawData?.filters?.Category
 
 
     const [hide, setHide] = useState(true)
@@ -15,7 +13,7 @@ export const CategoryFilter = () => {
     return (
         <div>
             <h1>Category</h1>
-            {categoryFilter && categoryFilter.map((i, index) => {
+            {category && category.map((i, index) => {
 
                     // todo read more icon
 
