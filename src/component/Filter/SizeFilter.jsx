@@ -20,7 +20,7 @@ const SizeFilter = ({size}) => {
                         // todo sizeDivider style
                         return (size.name === 'sizeDivider' ?
 
-                                <p>.....</p> : <li key={index}>
+                                <p key={index}>.....</p> : <li key={index}>
                                     <a href="">
                                     <span>
                                  {size.name}

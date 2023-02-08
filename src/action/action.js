@@ -28,3 +28,4 @@ export const fetchAllDataInAction = () => async dispatch => {
         console.log(err);
     }
 };
+

@@ -1,15 +1,9 @@
-import {useSelector} from "react-redux";
+
 import Product from "./Product";
 
-const Products = () => {
+const Products = ({products}) => {
 
-    const rawData = useSelector(state => state?.LuLuReducer?.rawData)
 
-    const products = rawData?.products;
-
-    // const [colorId, setColorId] = useState(0);
-    //
-    // const [productId, setProductId] = useState(null);
 
     return (
         <div>
@@ -21,7 +15,7 @@ const Products = () => {
 
                         // method 2: create son component
 
-                        return <Product key={pindex} product={product}/>
+                        return <Product key={pindex} product={product} pindex={pindex}/>
 
                         // method 1: in the same component
                         // return <div key={pindex}>

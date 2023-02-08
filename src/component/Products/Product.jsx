@@ -1,17 +1,36 @@
 import {useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
+import ProductPage from "./ProductPage";
+import {useDispatch} from "react-redux";
 
-const Products = ({product}) => {
+
+const Products = ({product, pindex}) => {
+
+
 
     const [colorId, setColorId] = useState(0);
 
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     return (
-        <div>
+        <div
+            // to={`product/${product?.productId}`}
+            //     onClick={() => {
+            //     navigate(`product/${product?.productId}`)
+            // }}
+
+        >
             {product?.images && product?.images[`${colorId}`]?.mainCarousel?.media &&
                 <div>
                     <img
+                        onClick={() => {
+                        navigate(`product/${pindex}`)
+                        }}
+
                         src={
                             product?.images[colorId]?.mainCarousel?.media?.split('|')[0]
-
                         }
                         alt={product.name}
                         width='100px'

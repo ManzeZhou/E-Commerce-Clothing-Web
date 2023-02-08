@@ -7,6 +7,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchAllDataInAction, fetchProductAPI} from "./action/action";
 import {Filter} from "./component/Filter/Filter";
 import Products from "./component/Products/Products";
+import {Route, Routes} from "react-router-dom";
+import Home from "./component/Home/Home";
+import ProductPage from "./component/Products/ProductPage";
+import home from "./component/Home/Home";
+import Header from "./component/Header";
 
 
 
@@ -38,10 +43,14 @@ function App() {
         dispatch(fetchAllDataInAction())
     }, []);
 
-
     const rawData = useSelector(state => state?.LuLuReducer?.rawData);
 
-    const filters = rawData?.filters;
+
+    const prodcutIdArr = rawData?.products?.map((product) => {
+        return product?.productId
+    });
+
+
 
 
 
@@ -50,16 +59,23 @@ function App() {
 
 
     return (
-        <div className='app'>
 
-            {rawData &&
-                <div className='main-content'>
-                    <Filter filtersData={filters} />
-                    <Products />
+        <Routes>
+            <Route path='/' element={<Header />}>
+                <Route index element={<Home />}/>
+                <Route path='/product/:id' element={<ProductPage />}/>
+            </Route>
 
-                </div>}
+            {/*<Route path='/product/:id' element={<ProductPage />} />*/}
 
-        </div>
+
+        </Routes>
+
+
+
+
+
+
 
 
     );
