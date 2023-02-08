@@ -1,43 +1,29 @@
 import {useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
-import ProductPage from "./ProductPage";
-import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 
 const Products = ({product, pindex}) => {
 
-
-
     const [colorId, setColorId] = useState(0);
 
-
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     return (
-        <div
-            // to={`product/${product?.productId}`}
-            //     onClick={() => {
-            //     navigate(`product/${product?.productId}`)
-            // }}
-
-        >
+        <div>
             {product?.images && product?.images[`${colorId}`]?.mainCarousel?.media &&
                 <div>
                     <img
                         onClick={() => {
-                        navigate(`product/${pindex}`)
+                            //pass pindex as ID and find target product index by using pindex in ProductPage
+                            navigate(`product/${pindex}`)
                         }}
 
-                        src={
-                            product?.images[colorId]?.mainCarousel?.media?.split('|')[0]
-                        }
+                        src={product?.images[colorId]?.mainCarousel?.media?.split('|')[0]}
                         alt={product.name}
                         width='100px'
                         height='100px'
 
                         onMouseEnter={(e) => e.target.src = product?.images[`${colorId}`]?.mainCarousel?.media?.split('|')[1]}
-
                         onMouseLeave={(e) => e.target.src = product?.images[`${colorId}`]?.mainCarousel?.media?.split('|')[0]}
                     />
 
@@ -49,9 +35,7 @@ const Products = ({product, pindex}) => {
                             alt={color.swatchAlt}
                             style={{borderRadius: '50%', height: '20px', width: '20px'}}
                             onMouseEnter={(e) => {
-
                                 setColorId(e.target.id);
-
                             }}
                         />
                     })}
