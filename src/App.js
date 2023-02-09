@@ -46,9 +46,12 @@ function App() {
     const rawData = useSelector(state => state?.LuLuReducer?.rawData);
 
 
-    const prodcutIdArr = rawData?.products?.map((product) => {
-        return product?.productId
-    });
+
+
+
+
+
+
 
 
 
