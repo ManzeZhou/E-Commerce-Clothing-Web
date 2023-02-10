@@ -5,12 +5,9 @@ import {useEffect, useState} from "react";
 
 const ProductPage = () => {
 
-
-
-
-
     const rawData = useSelector(state => state?.LuLuReducer?.rawData);
 
+    //localstorage can only store string
     localStorage.setItem('rawData', JSON.stringify(rawData));
 
     const data = JSON.parse( localStorage.getItem('rawData'));
@@ -36,10 +33,7 @@ const ProductPage = () => {
 
     const featureTitles = currentProduct?.featureTitles;
 
-
-
-
-    console.log('currentProduct', currentProduct);
+    const [currentImg, setCurrentImg] = useState(0)
 
 
     return (
@@ -47,53 +41,100 @@ const ProductPage = () => {
 
 
             {products && currentProduct &&
-            <div>
-                <h1>THis is product page</h1>
-                <h2>productId: {id}</h2>
-                <h2>{name}</h2>
-                <h2>{price}</h2>
-
-                <img src={currentProduct?.images[0]?.mainCarousel?.media?.split('|')[0]}
-                     alt={currentProduct?.name}
-                     width='100px'
-                     height='100px'/>
+            <div style={{marginRight: '151.2px', marginLeft: '151.2px', paddingLeft: '25px', paddingRight:'25px'}}>
 
                 <div>
-                    {swatches.map((swatch, index) => {
-                        return <img
-                            key={index}
-                            src={swatch.swatch}
-                            alt={swatch.swatchAlt}
-                            style={{borderRadius: '50%', height: '20px', width: '20px'}}
-                        />
-                    })}
-                </div>
 
-                <div>
-                    {sizes && sizes[0].details.map((item, index) => {
 
-                        return <button
-                            key={index}
-                            style={{height: '20px', width: '20px'}}
-                        >{item}</button>
-                    })}
-                </div>
+                    <div>
 
-                <button>ADD TO BAG</button>
+                        {/*left arrow btn*/}
+                        <button
+                            style={{width:'48px', height:'48px'}}
+                            onClick={() => {
+                                if(currentImg === 0){
+                                    setCurrentImg(currentProduct?.images[0]?.mainCarousel?.media?.split('|').length - 1)
+                                } else {
+                                    setCurrentImg(currentImg - 1)
+                                }
+                            }}
+                        >
+                            <img src="https://shop.lululemon.com/static/ecom-web-app/_next/static/images/sprite-126d64.svg#lll-left-chevron-usage" alt="" style={{width: '46px', height:'24px'}}/>
+                        </button>
 
-                {featureTitles.map((title, index) => {
-                    return <div>
-                        <img
-                            key={index}
-                            src={title.iconPath}
-                            alt={title.title}
-                            style={{height: '20px', width: '20px'}}
-                        />
+                        <img src={currentProduct?.images[0]?.mainCarousel?.media?.split('|')[currentImg]}
+                             alt={currentProduct?.name}
+                             width='675px'
+                             height='810px'/>
 
-                        <div>{title.title}</div>
+                        {/*right arrow btn*/}
+                        <button
+                            style={{width:'48px', height:'48px'}}
+                            onClick={() => {
+                                if(currentImg === currentProduct?.images[0]?.mainCarousel?.media?.split('|').length - 1){
+                                    setCurrentImg(0)
+                                } else {
+                                    setCurrentImg(currentImg + 1)
+                                }
+                            }}
+                        >
+                            <img src="https://shop.lululemon.com/static/ecom-web-app/_next/static/images/sprite-126d64.svg#lll-right-chevron-usage" alt="" style={{width: '46px', height:'24px'}}/>
+                        </button>
+
+                        <div>
+                            {currentProduct?.images[0]?.mainCarousel?.media?.split('|').map((img, index) => {
+                                return <img
+                                    src={img}
+                                    alt={index}
+                                    key={index}
+                                    style={{width:'36px', height:'36px', marginTop:'16px', marginLeft:'4px', marginRight:'4px'}}
+                                    onClick={() => {setCurrentImg(index)}}
+                                />
+                            })}
+                        </div>
                     </div>
 
-                })}
+                    <h2>productId: {id}</h2>
+                    <h2>{name}</h2>
+                    <h2>{price}</h2>
+
+                    <div>
+                        {swatches.map((swatch, index) => {
+                            return <img
+                                key={index}
+                                src={swatch.swatch}
+                                alt={swatch.swatchAlt}
+                                style={{borderRadius: '50%', height: '20px', width: '20px'}}
+                            />
+                        })}
+                    </div>
+
+                    <div>
+                        {sizes && sizes[0].details.map((item, index) => {
+
+                            return <button
+                                key={index}
+                                style={{height: '20px', width: '20px'}}
+                            >{item}</button>
+                        })}
+                    </div>
+
+                    <button>ADD TO BAG</button>
+
+                    {featureTitles.map((title, index) => {
+                        return <div>
+                            <img
+                                key={index}
+                                src={title.iconPath}
+                                alt={title.title}
+                                style={{height: '20px', width: '20px'}}
+                            />
+
+                            <div>{title.title}</div>
+                        </div>
+
+                    })}
+                </div>
 
             </div>
             }
