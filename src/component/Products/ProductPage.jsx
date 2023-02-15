@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 
 
@@ -10,7 +10,7 @@ const ProductPage = () => {
     //localstorage can only store string
     localStorage.setItem('rawData', JSON.stringify(rawData));
 
-    const data = JSON.parse( localStorage.getItem('rawData'));
+    const data = JSON.parse(localStorage.getItem('rawData'));
 
     const products = data?.products;
 
@@ -33,14 +33,52 @@ const ProductPage = () => {
 
     const [currentImg, setCurrentImg] = useState(0);
 
+// swatch id
     const [swatchColor, setSwatchColor] = useState(0);
-
+// size id
     const [sizeColor, setSizeColor] = useState(null);
-
+// local storage shopping cart array
     const [cartArr, setCartArr] = useState(null);
-
+// size value for shopping cart
     const [sizeValue, setSizeValue] = useState(null);
+// swatch value for shopping cart
+    const [swatchValue, setSwatchValue] = useState(null);
 
+
+    useEffect(() => {
+        console.log('sizeValue', sizeValue);
+    }, [sizeValue]);
+
+    useEffect(() => {
+        console.log('cartArr', JSON.parse(localStorage.getItem('cartArr')));
+    }, [])
+
+    const addToCart = (name, price) => {
+        if (sizeColor) {
+            const cartItem = {
+                'productName': name,
+                'price': price,
+                'swatch': swatchValue,
+                'size': sizeValue,
+                'qty': 1
+            }
+            // todo change qty if product name and color is same
+            if (!localStorage.getItem('cartArr')) {
+                localStorage.setItem('cartArr', '[]');
+                const cartLocal = JSON.parse(localStorage.getItem('cartArr'));
+                let newCartItems = [...cartLocal, {...cartItem}];
+                localStorage.setItem('cartArr', JSON.stringify(newCartItems));
+                return newCartItems;
+            } else {
+                const cartLocal = JSON.parse(localStorage.getItem('cartArr'));
+                let newCartItems = [...cartLocal, {...cartItem}];
+                localStorage.setItem('cartArr', JSON.stringify(newCartItems));
+
+                return newCartItems;
+            }
+
+        }
+    };
 
 
     return (
@@ -48,162 +86,187 @@ const ProductPage = () => {
 
 
             {products && currentProduct &&
-            <div style={{marginRight: '151.2px', marginLeft: '151.2px', paddingLeft: '25px', paddingRight:'25px'}}>
+                <div style={{marginRight: '151.2px', marginLeft: '151.2px', paddingLeft: '25px', paddingRight: '25px'}}>
 
-                <div style={{display:'flex', flexDirection:'row'}}>
+                    <div style={{display: 'flex', flexDirection: 'row'}}>
 
-
-                    <div>
-
-                        {/*left arrow btn*/}
-                        <button
-                            style={{width:'48px', height:'48px'}}
-                            onClick={() => {
-                                if(currentImg === 0){
-                                    setCurrentImg(currentProduct?.images[0]?.mainCarousel?.media?.split('|').length - 1)
-                                } else {
-                                    setCurrentImg(currentImg - 1)
-                                }
-                            }}
-                        >
-                            <img src="https://shop.lululemon.com/static/ecom-web-app/_next/static/images/sprite-126d64.svg#lll-left-chevron-usage" alt="" style={{width: '46px', height:'24px'}}/>
-                        </button>
-
-                        <img src={images[0]?.mainCarousel?.media?.split('|')[currentImg]}
-                             alt={currentProduct?.name}
-                             width='675px'
-                             height='810px'/>
-
-                        {/*right arrow btn*/}
-                        <button
-                            style={{width:'48px', height:'48px'}}
-                            onClick={() => {
-                                if(currentImg === images[0]?.mainCarousel?.media?.split('|').length - 1){
-                                    setCurrentImg(0)
-                                } else {
-                                    setCurrentImg(currentImg + 1)
-                                }
-                            }}
-                        >
-                            <img src="https://shop.lululemon.com/static/ecom-web-app/_next/static/images/sprite-126d64.svg#lll-right-chevron-usage" alt="" style={{width: '46px', height:'24px'}}/>
-                        </button>
 
                         <div>
-                            {images[0]?.mainCarousel?.media?.split('|').map((img, index) => {
-                                return <img
-                                    src={img}
-                                    alt={index}
-                                    key={index}
-                                    style={{width:'36px', height:'36px', marginTop:'16px', marginLeft:'4px', marginRight:'4px'}}
-                                    onClick={() => {setCurrentImg(index)}}
-                                />
-                            })}
-                        </div>
-                    </div>
 
-                    <div style={{paddingLeft:'12.5px', paddingRight:'12.5px'}}>
-                        <div>
-                            <h2>productId: {id}</h2>
-                            <h1>{name}</h1>
-                            <span>{price} CAD</span>
-                        </div>
+                            {/*left arrow btn*/}
+                            <button
+                                style={{width: '48px', height: '48px'}}
+                                onClick={() => {
+                                    if (currentImg === 0) {
+                                        setCurrentImg(currentProduct?.images[0]?.mainCarousel?.media?.split('|').length - 1)
+                                    } else {
+                                        setCurrentImg(currentImg - 1)
+                                    }
+                                }}
+                            >
+                                <img
+                                    src="https://shop.lululemon.com/static/ecom-web-app/_next/static/images/sprite-126d64.svg#lll-left-chevron-usage"
+                                    alt="" style={{width: '46px', height: '24px'}}/>
+                            </button>
 
-                        <div>
-                            {/*swatch*/}
-                            <p style={{marginBottom:'8px'}}>Color: {swatches[swatchColor].swatchAlt}</p>
-                            <div style={{display:'flex', flexDirection:'row'}}>
-                                {swatches.map((swatch, index) => {
-                                    return <img
-                                        key={index}
-                                        id={index}
-                                        src={swatch.swatch}
-                                        alt={swatch.swatchAlt}
-                                        onClick={(e) => {setSwatchColor(e.target.id)}}
-                                        style={{borderRadius: '50%', height: '34px', width: '34px', marginRight:'14.4px', marginBottom:'8px'}}
-                                    />
+                            <img src={images[0]?.mainCarousel?.media?.split('|')[currentImg]}
+                                 alt={currentProduct?.name}
+                                 width='675px'
+                                 height='810px'/>
 
-                                })}
-                            </div>
+                            {/*right arrow btn*/}
+                            <button
+                                style={{width: '48px', height: '48px'}}
+                                onClick={() => {
+                                    if (currentImg === images[0]?.mainCarousel?.media?.split('|').length - 1) {
+                                        setCurrentImg(0)
+                                    } else {
+                                        setCurrentImg(currentImg + 1)
+                                    }
+                                }}
+                            >
+                                <img
+                                    src="https://shop.lululemon.com/static/ecom-web-app/_next/static/images/sprite-126d64.svg#lll-right-chevron-usage"
+                                    alt="" style={{width: '46px', height: '24px'}}/>
+                            </button>
 
-                            {/*size*/}
                             <div>
-                                <div style={{marginBottom:'8px'}}>
-                                    <span>Select Size</span>
-                                    <button>Size Guide</button>
-                                </div>
-
-                                {sizes && sizes[0].details.map((item, index) => {
-
-                                    return <button
+                                {images[0]?.mainCarousel?.media?.split('|').map((img, index) => {
+                                    return <img
+                                        src={img}
+                                        alt={index}
                                         key={index}
-                                        id={index}
-                                        style={{height: '36px', width: '36px', marginRight:'4px', marginLeft:'4px', marginBottom:'16px', borderRadius:'5px', backgroundColor: index === sizeColor ? 'black': 'white', color: index === sizeColor ? 'white': 'black'}}
-                                        onClick={(e ) => {setSizeColor(e.target.id);
-                                            setSizeValue(item);
-                                            // console.log('sizeValue',sizeValue)
-                                            }}
-                                    >{item}</button>
+                                        style={{
+                                            width: '36px',
+                                            height: '36px',
+                                            marginTop: '16px',
+                                            marginLeft: '4px',
+                                            marginRight: '4px'
+                                        }}
+                                        onClick={() => {
+                                            setCurrentImg(index)
+                                        }}
+                                    />
                                 })}
                             </div>
-
                         </div>
 
-                        {/*add to bag button*/}
-                        <button
-                            style={{width:'100%', backgroundColor:'#d31334', borderColor:'#d31334', color: '#fff'}}
-                            // todo setSizeValue async
-                            // onClick={() => {
-                            //     {sizeColor ? setCartArr({
-                            //         'productName': name,
-                            //         'price': price,
-                            //         'swatch': swatchColor,
-                            //         'size' : sizeValue,
-                            //         'qty': 1
-                            //     }) : alert('please select a size')};
-                            //     console.log('sizevalue from checkout btn',sizeValue)
-                            //
-                            //  localStorage.setItem('cart', JSON.stringify(cartArr));
-                            //     console.log(JSON.parse(localStorage.getItem('cart')));
-                            // }}
+                        <div style={{paddingLeft: '12.5px', paddingRight: '12.5px'}}>
+                            <div>
+                                <h2>productId: {id}</h2>
+                                <h1>{name}</h1>
+                                <span>{price} CAD</span>
+                            </div>
 
-                        >
-                            ADD TO BAG
-                        </button>
-
-
-                        {/*Deatils*/}
-                        <div>
-                            <ul>
-                                {featureTitles.map((title, index) => {
-                                    return <li style={{display:'flex', flexDirection:'row'}} key={index}>
-                                        <img
+                            <div>
+                                {/*swatch*/}
+                                <p style={{marginBottom: '8px'}}>Color: {swatches[swatchColor].swatchAlt}</p>
+                                <div style={{display: 'flex', flexDirection: 'row'}}>
+                                    {swatches.map((swatch, index) => {
+                                        return <img
                                             key={index}
-                                            src={title.iconPath}
-                                            alt={title.title}
-                                            style={{height: '24px', width: '24px'}}
+                                            id={index}
+                                            src={swatch.swatch}
+                                            alt={swatch.swatchAlt}
+                                            onClick={(e) => {
+                                                setSwatchColor(e.target.id);
+                                                setSwatchValue(swatch.swatchAlt)
+                                            }}
+                                            style={{
+                                                borderRadius: '50%',
+                                                height: '34px',
+                                                width: '34px',
+                                                marginRight: '14.4px',
+                                                marginBottom: '8px'
+                                            }}
                                         />
 
-                                        <div style={{marginLeft:'12.5px', marginRight:'12.5px'}}>{title.title}</div>
-                                    </li>
+                                    })}
+                                </div>
 
-                                })}
-                            </ul>
+                                {/*size*/}
+                                <div>
+                                    <div style={{marginBottom: '8px'}}>
+                                        <span>Select Size</span>
+                                        <button>Size Guide</button>
+                                    </div>
 
+                                    {sizes && sizes[0].details.map((item, index) => {
+
+                                        return <button
+                                            key={index}
+                                            id={index}
+                                            style={{
+                                                height: '36px',
+                                                width: '36px',
+                                                marginRight: '4px',
+                                                marginLeft: '4px',
+                                                marginBottom: '16px',
+                                                borderRadius: '5px',
+                                                backgroundColor: index === sizeColor ? 'black' : 'white',
+                                                color: index === sizeColor ? 'white' : 'black'
+                                            }}
+                                            onClick={(e) => {
+                                                setSizeColor(e.target.id);
+                                                setSizeValue(item);
+
+                                            }}
+                                        >{item}</button>
+                                    })}
+                                </div>
+
+                            </div>
+
+                            {/*add to bag button*/}
+                            <button
+                                style={{
+                                    width: '100%',
+                                    backgroundColor: '#d31334',
+                                    borderColor: '#d31334',
+                                    color: '#fff'
+                                }}
+                                // set shopping cart Arr in local storage
+                                onClick={() => {
+                                    if(!sizeColor) {
+                                        alert('please select a color')
+                                    }
+                                    addToCart(name, price)
+                                }}
+
+                            >
+                                ADD TO BAG
+                            </button>
+
+
+                            {/*Deatils*/}
+                            <div>
+                                <ul>
+                                    {featureTitles.map((title, index) => {
+                                        return <li style={{display: 'flex', flexDirection: 'row'}} key={index}>
+                                            <img
+                                                key={index}
+                                                src={title.iconPath}
+                                                alt={title.title}
+                                                style={{height: '24px', width: '24px'}}
+                                            />
+
+                                            <div style={{
+                                                marginLeft: '12.5px',
+                                                marginRight: '12.5px'
+                                            }}>{title.title}</div>
+                                        </li>
+
+                                    })}
+                                </ul>
+
+                            </div>
                         </div>
+
+
                     </div>
 
-
-
-
-
-
-
-
                 </div>
-
-            </div>
             }
-
 
 
         </div>
