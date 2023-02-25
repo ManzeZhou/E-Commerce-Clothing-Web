@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 
@@ -289,6 +289,9 @@ const ProductPage = () => {
                 </div>
             }
 
+            <div>
+                <Link to='/cart'><button>Check my cart</button></Link>
+            </div>
 
         </div>
     )

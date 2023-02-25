@@ -12,6 +12,7 @@ import Home from "./component/Home/Home";
 import ProductPage from "./component/Products/ProductPage";
 import home from "./component/Home/Home";
 import Header from "./component/Header";
+import Cart from "./component/Cart/Cart";
 
 
 
@@ -46,30 +47,16 @@ function App() {
     const rawData = useSelector(state => state?.LuLuReducer?.rawData);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     return (
 
         <Routes>
             <Route path='/' element={<Header />}>
                 <Route index element={<Home />}/>
                 <Route path='/product/:id' element={<ProductPage />}/>
+                <Route path='/cart' element={<Cart />}></Route>
             </Route>
 
-            {/*<Route path='/product/:id' element={<ProductPage />} />*/}
+
 
 
         </Routes>
