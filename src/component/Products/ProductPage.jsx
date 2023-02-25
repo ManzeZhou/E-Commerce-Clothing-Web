@@ -107,198 +107,279 @@ const ProductPage = () => {
         }
     };
 
+    const [show, setShow] = useState(false);
+
 
     return (
         <div>
 
+            <div>
+                {products && currentProduct &&
 
-            {products && currentProduct &&
-                <div style={{marginRight: '151.2px', marginLeft: '151.2px', paddingLeft: '25px', paddingRight: '25px'}}>
+                    <div style={{marginRight: '151.2px', marginLeft: '151.2px', paddingLeft: '25px', paddingRight: '25px'}}>
 
-                    <div style={{display: 'flex', flexDirection: 'row'}}>
+                        <div style={{display: 'flex', flexDirection: 'row'}}>
 
 
-                        <div>
+                            <div>
 
-                            {/*left arrow btn*/}
-                            <button
-                                style={{width: '48px', height: '48px'}}
-                                onClick={() => {
-                                    if (currentImg === 0) {
-                                        setCurrentImg(currentProduct?.images[0]?.mainCarousel?.media?.split('|').length - 1)
-                                    } else {
-                                        setCurrentImg(currentImg - 1)
+                                {/*left arrow btn*/}
+                                <button
+                                    style={{width: '48px', height: '48px'}}
+                                    onClick={() => {
+                                        if (currentImg === 0) {
+                                            setCurrentImg(currentProduct?.images[0]?.mainCarousel?.media?.split('|').length - 1)
+                                        } else {
+                                            setCurrentImg(currentImg - 1)
+                                        }
+                                    }}
+                                >
+                                    <img
+                                        src="https://shop.lululemon.com/static/ecom-web-app/_next/static/images/sprite-126d64.svg#lll-left-chevron-usage"
+                                        alt="" style={{width: '46px', height: '24px'}}/>
+                                </button>
+
+                                <img src={images[swatchColor]?.mainCarousel?.media?.split('|')[currentImg]}
+                                     alt={currentProduct?.name}
+                                     width='675px'
+                                     height='810px'/>
+
+                                {/*right arrow btn*/}
+                                <button
+                                    style={{width: '48px', height: '48px'}}
+                                    onClick={() => {
+                                        if (currentImg === images[swatchColor]?.mainCarousel?.media?.split('|').length - 1) {
+                                            setCurrentImg(0)
+                                        } else {
+                                            setCurrentImg(currentImg + 1)
+                                        }
                                     }
-                                }}
-                            >
-                                <img
-                                    src="https://shop.lululemon.com/static/ecom-web-app/_next/static/images/sprite-126d64.svg#lll-left-chevron-usage"
-                                    alt="" style={{width: '46px', height: '24px'}}/>
-                            </button>
+                                }
+                                >
+                                    <img
+                                        src="https://shop.lululemon.com/static/ecom-web-app/_next/static/images/sprite-126d64.svg#lll-right-chevron-usage"
+                                        alt="" style={{width: '46px', height: '24px'}}/>
+                                </button>
 
-                            <img src={images[swatchColor]?.mainCarousel?.media?.split('|')[currentImg]}
-                                 alt={currentProduct?.name}
-                                 width='675px'
-                                 height='810px'/>
-
-                            {/*right arrow btn*/}
-                            <button
-                                style={{width: '48px', height: '48px'}}
-                                onClick={() => {
-                                    if (currentImg === images[swatchColor]?.mainCarousel?.media?.split('|').length - 1) {
-                                        setCurrentImg(0)
-                                    } else {
-                                        setCurrentImg(currentImg + 1)
-                                    }
-                                }}
-                            >
-                                <img
-                                    src="https://shop.lululemon.com/static/ecom-web-app/_next/static/images/sprite-126d64.svg#lll-right-chevron-usage"
-                                    alt="" style={{width: '46px', height: '24px'}}/>
-                            </button>
-
-                            <div>
-                                {images[swatchColor]?.mainCarousel?.media?.split('|').map((img, index) => {
-                                    return <img
-                                        src={img}
-                                        alt={index}
-                                        key={index}
-                                        style={{
-                                            width: '36px',
-                                            height: '36px',
-                                            marginTop: '16px',
-                                            marginLeft: '4px',
-                                            marginRight: '4px'
-                                        }}
-                                        onClick={() => {
-                                            setCurrentImg(index)
-                                        }}
-                                    />
-                                })}
-                            </div>
-                        </div>
-
-                        <div style={{paddingLeft: '12.5px', paddingRight: '12.5px'}}>
-                            <div>
-                                <h2>productId: {id}</h2>
-                                <h1>{name}</h1>
-                                <span>{price} CAD</span>
-                            </div>
-
-                            <div>
-                                {/*swatch*/}
-                                <p style={{marginBottom: '8px'}}>Color: {swatches[swatchColor].swatchAlt}</p>
-                                <div style={{display: 'flex', flexDirection: 'row'}}>
-                                    {swatches.map((swatch, index) => {
+                                <div>
+                                    {images[swatchColor]?.mainCarousel?.media?.split('|').map((img, index) => {
                                         return <img
+                                            src={img}
+                                            alt={index}
                                             key={index}
-                                            id={index}
-                                            src={swatch.swatch}
-                                            alt={swatch.swatchAlt}
-                                            onClick={(e) => {
-                                                setSwatchColor(e.target.id);
-                                                setSwatchValue(swatch.swatchAlt);
-
-                                            }}
                                             style={{
-                                                borderRadius: '50%',
-                                                height: '34px',
-                                                width: '34px',
-                                                marginRight: '14.4px',
-                                                marginBottom: '8px'
+                                                width: '36px',
+                                                height: '36px',
+                                                marginTop: '16px',
+                                                marginLeft: '4px',
+                                                marginRight: '4px'
+                                            }}
+                                            onClick={() => {
+                                                setCurrentImg(index)
                                             }}
                                         />
-
                                     })}
                                 </div>
-
-                                {/*size*/}
-                                <div>
-                                    <div style={{marginBottom: '8px'}}>
-                                        <span>Select Size</span>
-                                        <button>Size Guide</button>
-                                    </div>
-
-                                    {sizes && sizes[0].details.map((item, index) => {
-
-                                        return <button
-                                            key={index}
-                                            id={index}
-                                            style={{
-                                                height: '36px',
-                                                width: '36px',
-                                                marginRight: '4px',
-                                                marginLeft: '4px',
-                                                marginBottom: '16px',
-                                                borderRadius: '5px',
-                                                backgroundColor: index === sizeColor ? 'black' : 'white',
-                                                color: index === sizeColor ? 'white' : 'black'
-                                            }}
-                                            onClick={(e) => {
-                                                setSizeColor(e.target.id);
-                                                setSizeValue(item);
-
-                                            }}
-                                        >{item}</button>
-                                    })}
-                                </div>
-
                             </div>
 
-                            {/*add to bag button*/}
-                            <button
-                                style={{
-                                    width: '100%',
-                                    backgroundColor: '#d31334',
-                                    borderColor: '#d31334',
-                                    color: '#fff'
-                                }}
-                                // set shopping cart Arr in local storage
-                                onClick={() => {
-                                    if (!sizeColor) {
-                                        alert('please select a color')
-                                    }
-                                    addToCart(name, price)
-                                }}
+                            <div style={{paddingLeft: '12.5px', paddingRight: '12.5px'}}>
+                                <div>
+                                    <h2>productId: {id}</h2>
+                                    <h1>{name}</h1>
+                                    <span>{price} CAD</span>
+                                </div>
 
-                            >
-                                ADD TO BAG
-                            </button>
-
-
-                            {/*Deatils*/}
-                            <div>
-                                <ul>
-                                    {featureTitles.map((title, index) => {
-                                        return <li style={{display: 'flex', flexDirection: 'row'}} key={index}>
-                                            <img
+                                <div>
+                                    {/*swatch*/}
+                                    <p style={{marginBottom: '8px'}}>Color: {swatches[swatchColor].swatchAlt}</p>
+                                    <div style={{display: 'flex', flexDirection: 'row'}}>
+                                        {swatches.map((swatch, index) => {
+                                            return <img
                                                 key={index}
-                                                src={title.iconPath}
-                                                alt={title.title}
-                                                style={{height: '24px', width: '24px'}}
+                                                id={index}
+                                                src={swatch.swatch}
+                                                alt={swatch.swatchAlt}
+                                                onClick={(e) => {
+                                                    setSwatchColor(e.target.id);
+                                                    setSwatchValue(swatch.swatchAlt);
+
+                                                }}
+                                                style={{
+                                                    borderRadius: '50%',
+                                                    height: '34px',
+                                                    width: '34px',
+                                                    marginRight: '14.4px',
+                                                    marginBottom: '8px'
+                                                }}
                                             />
 
-                                            <div style={{
-                                                marginLeft: '12.5px',
-                                                marginRight: '12.5px'
-                                            }}>{title.title}</div>
-                                        </li>
+                                        })}
+                                    </div>
 
-                                    })}
-                                </ul>
+                                    {/*size*/}
+                                    <div>
+                                        <div style={{marginBottom: '8px'}}>
+                                            <span>Select Size</span>
+                                            <button>Size Guide</button>
+                                        </div>
+
+                                        {sizes && sizes[0].details.map((item, index) => {
+
+                                            return <button
+                                                key={index}
+                                                id={index}
+                                                style={{
+                                                    height: '36px',
+                                                    width: '36px',
+                                                    marginRight: '4px',
+                                                    marginLeft: '4px',
+                                                    marginBottom: '16px',
+                                                    borderRadius: '5px',
+                                                    backgroundColor: index === sizeColor ? 'black' : 'white',
+                                                    color: index === sizeColor ? 'white' : 'black'
+                                                }}
+                                                onClick={(e) => {
+                                                    setSizeColor(e.target.id);
+                                                    setSizeValue(item);
+
+                                                }}
+                                            >{item}</button>
+                                        })}
+                                    </div>
+
+                                </div>
+
+                                {/*add to bag button*/}
+                                <button
+                                    style={{
+                                        width: '100%',
+                                        backgroundColor: '#d31334',
+                                        borderColor: '#d31334',
+                                        color: '#fff'
+                                    }}
+                                    // set shopping cart Arr in local storage
+                                    onClick={() => {
+                                        if (!sizeColor) {
+                                            alert('please select a color')
+                                        }
+                                        addToCart(name, price);
+                                        setShow(true)
+                                    }}
+
+                                >
+                                    ADD TO BAG
+                                </button>
+
+
+                                {/*Deatils*/}
+                                <div>
+                                    <ul>
+                                        {featureTitles.map((title, index) => {
+                                            return <li style={{display: 'flex', flexDirection: 'row'}} key={index}>
+                                                <img
+                                                    key={index}
+                                                    src={title.iconPath}
+                                                    alt={title.title}
+                                                    style={{height: '24px', width: '24px'}}
+                                                />
+
+                                                <div style={{
+                                                    marginLeft: '12.5px',
+                                                    marginRight: '12.5px'
+                                                }}>{title.title}</div>
+                                            </li>
+
+                                        })}
+                                    </ul>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                }
+
+
+                <div>
+                    <Link to='/cart'><button>Check my cart</button></Link>
+                </div>
+            </div>
+
+            <div
+                style={{
+                    paddingLeft:'15px',
+                    paddingRight:'15px',
+                    paddingBottom: '104px',
+                    paddingTop: '104px',
+                    backgroundColor: 'rgba(99,99,99,.6)',
+                    zIndex: 106,
+                    opacity: 1,
+                    position: 'absolute',
+                    top: 0,
+                    left:0,
+                    width: '100%',
+                    height: '100%',
+                    display: show ? 'block' : 'none'
+
+
+                }}>
+                <div style={{paddingLeft: '25px', paddingRight:'25px'}}>
+                    <div style={{display: 'flex', justifyContent:'center', textAlign:'center'}}>
+                        <div style={{marginBottom: '35px', marginTop:'22px', border:'0.8px', paddingLeft:'12.5px', paddingRight:'12.5px'}}>
+
+                            <div style={{backgroundColor:'white', width: '750px', height:'800px', display:'flex', flexDirection:'column', position:'relative'}}>
+
+                                <button
+                                    style={{ right:'5px', position:'absolute', width: '30px'}}
+                                    onClick={() => {setShow(false)}}
+                                >x</button>
+
+                                <div style={{paddingLeft: '15px', paddingRight:'15px', paddingTop: '20px'}}>
+
+                                    <div style={{display: 'flex', flexDirection: 'row', alignItems:'center'}}>
+                                        <h1>Add To Your Bag</h1>
+                                        <p>items</p>
+                                    </div>
+
+                                    <div>
+
+                                        <div style={{display:'flex', flexDirection:'row', justifyContent:'space-around'}}>
+                                            <div style={{height: "126px", width: '151px'}}>
+                                                <img
+                                                    src={images[swatchColor]?.mainCarousel?.media?.split('|')[currentImg]}
+                                                    alt=""
+                                                    style={{height: 'auto', width: '100%'}}
+                                                />
+
+                                            </div>
+
+                                            <div style={{paddingLeft: '12.5px', paddingRight:'12.5px'}}>
+                                                <h3>product title</h3>
+                                                <p>size: </p>
+                                                <p>price:</p>
+                                            </div>
+
+
+                                            <div style={{paddingLeft: '20px'}}>
+                                                <h3>Subtotal: $ CAD</h3>
+                                                <button>VIEW BAG & CHECKOUT</button>
+                                                <p>CONTINUE SHOPPING -></p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
 
                             </div>
                         </div>
-
-
                     </div>
-
                 </div>
-            }
-
-            <div>
-                <Link to='/cart'><button>Check my cart</button></Link>
             </div>
+
+
 
         </div>
     )

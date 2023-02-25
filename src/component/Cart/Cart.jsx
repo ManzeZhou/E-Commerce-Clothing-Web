@@ -16,7 +16,7 @@ const Cart = () => {
                   <p>{i.swatch}</p>
                   <p>{i.qty}</p>
               </div>
-          }) : 'Your cart is empty'}
+          }) : 'Give your bag some love!'}
       </div>
   )
 }
