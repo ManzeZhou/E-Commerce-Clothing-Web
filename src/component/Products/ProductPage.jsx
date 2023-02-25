@@ -33,8 +33,9 @@ const ProductPage = () => {
 
     const [currentImg, setCurrentImg] = useState(0);
 
-// swatch id
+// swatch
     const [swatchColor, setSwatchColor] = useState(0);
+
 // size id
     const [sizeColor, setSizeColor] = useState(null);
 // local storage shopping cart array
@@ -48,6 +49,11 @@ const ProductPage = () => {
     useEffect(() => {
         console.log('sizeValue', sizeValue);
     }, [sizeValue]);
+
+    useEffect(() => {
+        console.log('swatchColor', swatchColor);
+    }, [swatchColor]);
+
 
 
 
@@ -130,7 +136,7 @@ const ProductPage = () => {
                                     alt="" style={{width: '46px', height: '24px'}}/>
                             </button>
 
-                            <img src={images[0]?.mainCarousel?.media?.split('|')[currentImg]}
+                            <img src={images[swatchColor]?.mainCarousel?.media?.split('|')[currentImg]}
                                  alt={currentProduct?.name}
                                  width='675px'
                                  height='810px'/>
@@ -139,7 +145,7 @@ const ProductPage = () => {
                             <button
                                 style={{width: '48px', height: '48px'}}
                                 onClick={() => {
-                                    if (currentImg === images[0]?.mainCarousel?.media?.split('|').length - 1) {
+                                    if (currentImg === images[swatchColor]?.mainCarousel?.media?.split('|').length - 1) {
                                         setCurrentImg(0)
                                     } else {
                                         setCurrentImg(currentImg + 1)
@@ -152,7 +158,7 @@ const ProductPage = () => {
                             </button>
 
                             <div>
-                                {images[0]?.mainCarousel?.media?.split('|').map((img, index) => {
+                                {images[swatchColor]?.mainCarousel?.media?.split('|').map((img, index) => {
                                     return <img
                                         src={img}
                                         alt={index}
@@ -191,7 +197,8 @@ const ProductPage = () => {
                                             alt={swatch.swatchAlt}
                                             onClick={(e) => {
                                                 setSwatchColor(e.target.id);
-                                                setSwatchValue(swatch.swatchAlt)
+                                                setSwatchValue(swatch.swatchAlt);
+
                                             }}
                                             style={{
                                                 borderRadius: '50%',
