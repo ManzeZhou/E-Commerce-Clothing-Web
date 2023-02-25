@@ -49,11 +49,10 @@ const ProductPage = () => {
         console.log('sizeValue', sizeValue);
     }, [sizeValue]);
 
-    useEffect(() => {
-        console.log('cartArr', JSON.parse(localStorage.getItem('cartArr')));
-    }, [])
+
 
     const addToCart = (name, price) => {
+
         if (sizeColor) {
             const cartItem = {
                 'productName': name,
@@ -62,21 +61,43 @@ const ProductPage = () => {
                 'size': sizeValue,
                 'qty': 1
             }
-            // todo change qty if product name and color is same
+            // change qty if product name, size and color are same
+
+            // localStorage.clear();
+
             if (!localStorage.getItem('cartArr')) {
-                localStorage.setItem('cartArr', '[]');
-                const cartLocal = JSON.parse(localStorage.getItem('cartArr'));
-                let newCartItems = [...cartLocal, {...cartItem}];
+                // localStorage.setItem('cartArr', '[]');
+                // const cartLocal = JSON.parse(localStorage.getItem('cartArr'));
+                let newCartItems = [{...cartItem}];
                 localStorage.setItem('cartArr', JSON.stringify(newCartItems));
-                return newCartItems;
+                console.log('cartArr', JSON.parse(localStorage.getItem('cartArr')));
+                // return newCartItems;
+
             } else {
                 const cartLocal = JSON.parse(localStorage.getItem('cartArr'));
-                let newCartItems = [...cartLocal, {...cartItem}];
-                localStorage.setItem('cartArr', JSON.stringify(newCartItems));
 
-                return newCartItems;
+                const indexToChange = cartLocal.findIndex(i => i.productName === name && i.swatch === swatchValue && i.size === sizeValue);
+                console.log('indexToChange', indexToChange);
+
+                // find the same item
+                if (indexToChange !== -1) {
+                    const newCartLocal = [...cartLocal]
+                    newCartLocal[indexToChange].qty = parseInt(newCartLocal[indexToChange].qty) + 1;
+                    console.log('newCartLocal',newCartLocal)
+
+                    localStorage.setItem('cartArr', JSON.stringify(newCartLocal));
+
+
+                } else {
+                    let newCartItems = [...cartLocal, {...cartItem}];
+                    localStorage.setItem('cartArr', JSON.stringify(newCartItems));
+                }
+
+
+                console.log('cartArr', JSON.parse(localStorage.getItem('cartArr')));
+
+
             }
-
         }
     };
 
@@ -227,7 +248,7 @@ const ProductPage = () => {
                                 }}
                                 // set shopping cart Arr in local storage
                                 onClick={() => {
-                                    if(!sizeColor) {
+                                    if (!sizeColor) {
                                         alert('please select a color')
                                     }
                                     addToCart(name, price)
