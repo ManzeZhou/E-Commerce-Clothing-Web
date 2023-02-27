@@ -25,6 +25,8 @@ const ProductPage = () => {
 
     const sizes = currentProduct?.sizes;
 
+    console.log('sizes',sizes)
+
     const images = currentProduct?.images;
 
     const swatches = currentProduct?.swatches;
@@ -47,6 +49,10 @@ const ProductPage = () => {
     useEffect(() => {
         console.log('swatchColor', swatchColor);
     }, [swatchColor]);
+
+    useEffect(() => {
+        console.log('images', images)
+    }, [images])
 
 
 
@@ -105,13 +111,29 @@ const ProductPage = () => {
     const [show, setShow] = useState(false);
 
 
-    // todo check subtotal price in cart and show items qty
-    useEffect(() => {
-        const cartArr = JSON.parse(localStorage.getItem('cartArr'));
-        if(cartArr) {
+    //  check subtotal price in cart and show items qty
+    // todo async subtotal price, always late
+    // const priceArr = [];
+    //
+    // const cartArr = JSON.parse(localStorage.getItem('cartArr'));
+    // useEffect(() => {
+    //
+    //     if(cartArr) {
+    //         console.log('cartArr',cartArr);
+    //
+    //         cartArr.map((item) => {
+    //
+    //             priceArr.push(parseInt(item.price.replace(/\$/g, '').replace(/\sCAD/g, '')));
+    //             console.log('priceArr',priceArr)
+    //         });
+    //
+    //         let subtotalPrice = priceArr.reduce((a,b) => a + b, 0);
+    //         localStorage.setItem('subtotalPrice', JSON.stringify(subtotalPrice));
+    //         console.log('subtotalPrice',subtotalPrice)
+    //     }
+    // }, [cartArr, priceArr]);
 
-        }
-    }, [])
+
 
     return (
         <div>
@@ -262,11 +284,17 @@ const ProductPage = () => {
                                     }}
                                     // set shopping cart Arr in local storage
                                     onClick={() => {
-                                        if (!sizeColor) {
-                                            alert('please select a color')
-                                        }
                                         addToCart(name, price);
-                                        setShow(true)
+                                        // if the product does not have a size, show patch
+                                        if(sizes[0]?.details.length === 0) {
+                                            setShow(true)
+                                        }
+                                        // if the product has a size but not selected, do not show patch
+                                        else if (sizes[0]?.details.length !== 0 && !sizeColor) {
+                                            alert('please select a size')
+                                        } else if (sizes[0]?.details.length !== 0 && sizeColor) {
+                                            setShow(true)
+                                        }
                                     }}
 
                                 >
@@ -346,36 +374,48 @@ const ProductPage = () => {
                                         <p>items</p>
                                     </div>
 
-                                    <div>
+
+                                        <div>
 
                                         <div style={{display:'flex', flexDirection:'row', justifyContent:'space-around'}}>
                                             <div style={{height: "126px", width: '151px'}}>
 
-                                                { images && swatchColor &&
+
+                                                { images  &&
                                                     <img
                                                         src={images[swatchColor]?.mainCarousel?.media?.split('|')[currentImg]}
                                                         alt=""
                                                         style={{height: 'auto', width: '100%'}}
                                                     />
+
                                                 }
+
+
+
+
+
 
                                             </div>
 
                                             <div style={{paddingLeft: '12.5px', paddingRight:'12.5px'}}>
                                                 <h3>product title</h3>
-                                                <p>size: {sizeValue}</p>
+
+                                                    <p>size: {sizes[0]?.details.length === 0 ? 'default' : {sizeValue}}</p>
+
                                                 <p>price: {price}</p>
                                             </div>
 
 
                                             <div style={{paddingLeft: '20px'}}>
-                                                <h3>Subtotal: $ CAD</h3>
+                                                <h3>Subtotal: $ {JSON.parse(localStorage.getItem('subtotalPrice'))}CAD</h3>
                                                 <Link to='/cart'><button>VIEW BAG & CHECKOUT</button></Link>
                                                 <p>CONTINUE SHOPPING -></p>
                                             </div>
                                         </div>
 
                                     </div>
+
+
 
                                 </div>
 
