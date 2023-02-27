@@ -67,18 +67,14 @@ const ProductPage = () => {
                 'size': sizeValue,
                 'qty': 1
             }
-            // change qty if product name, size and color are same
 
             // localStorage.clear();
 
             if (!localStorage.getItem('cartArr')) {
-                // localStorage.setItem('cartArr', '[]');
-                // const cartLocal = JSON.parse(localStorage.getItem('cartArr'));
+
                 let newCartItems = [{...cartItem}];
                 localStorage.setItem('cartArr', JSON.stringify(newCartItems));
                 console.log('cartArr', JSON.parse(localStorage.getItem('cartArr')));
-                // return newCartItems;
-
             } else {
                 const cartLocal = JSON.parse(localStorage.getItem('cartArr'));
 
@@ -99,9 +95,7 @@ const ProductPage = () => {
                     localStorage.setItem('cartArr', JSON.stringify(newCartItems));
                 }
 
-
                 console.log('cartArr', JSON.parse(localStorage.getItem('cartArr')));
-
 
             }
         }
@@ -391,16 +385,12 @@ const ProductPage = () => {
                                                 }
 
 
-
-
-
-
                                             </div>
 
                                             <div style={{paddingLeft: '12.5px', paddingRight:'12.5px'}}>
                                                 <h3>product title</h3>
 
-                                                    <p>size: {sizes[0]?.details.length === 0 ? 'default' : {sizeValue}}</p>
+                                                    <p>size: {sizes[0]?.details.length === 0 ? 'default' : `${sizeValue}`}</p>
 
                                                 <p>price: {price}</p>
                                             </div>
