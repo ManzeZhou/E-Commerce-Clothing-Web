@@ -38,17 +38,11 @@ const ProductPage = () => {
 
 // size id
     const [sizeColor, setSizeColor] = useState(null);
-// local storage shopping cart array
-    const [cartArr, setCartArr] = useState(null);
 // size value for shopping cart
     const [sizeValue, setSizeValue] = useState(null);
 // swatch value for shopping cart
     const [swatchValue, setSwatchValue] = useState(null);
 
-
-    useEffect(() => {
-        console.log('sizeValue', sizeValue);
-    }, [sizeValue]);
 
     useEffect(() => {
         console.log('swatchColor', swatchColor);
@@ -107,14 +101,23 @@ const ProductPage = () => {
         }
     };
 
+    // show cart patch after clicking add to cart button
     const [show, setShow] = useState(false);
 
+
+    // todo check subtotal price in cart and show items qty
+    useEffect(() => {
+        const cartArr = JSON.parse(localStorage.getItem('cartArr'));
+        if(cartArr) {
+
+        }
+    }, [])
 
     return (
         <div>
 
             <div>
-                {products && currentProduct &&
+                {products && currentProduct && images &&
 
                     <div style={{marginRight: '151.2px', marginLeft: '151.2px', paddingLeft: '25px', paddingRight: '25px'}}>
 
@@ -347,24 +350,27 @@ const ProductPage = () => {
 
                                         <div style={{display:'flex', flexDirection:'row', justifyContent:'space-around'}}>
                                             <div style={{height: "126px", width: '151px'}}>
-                                                <img
-                                                    src={images[swatchColor]?.mainCarousel?.media?.split('|')[currentImg]}
-                                                    alt=""
-                                                    style={{height: 'auto', width: '100%'}}
-                                                />
+
+                                                { images && swatchColor &&
+                                                    <img
+                                                        src={images[swatchColor]?.mainCarousel?.media?.split('|')[currentImg]}
+                                                        alt=""
+                                                        style={{height: 'auto', width: '100%'}}
+                                                    />
+                                                }
 
                                             </div>
 
                                             <div style={{paddingLeft: '12.5px', paddingRight:'12.5px'}}>
                                                 <h3>product title</h3>
-                                                <p>size: </p>
-                                                <p>price:</p>
+                                                <p>size: {sizeValue}</p>
+                                                <p>price: {price}</p>
                                             </div>
 
 
                                             <div style={{paddingLeft: '20px'}}>
                                                 <h3>Subtotal: $ CAD</h3>
-                                                <button>VIEW BAG & CHECKOUT</button>
+                                                <Link to='/cart'><button>VIEW BAG & CHECKOUT</button></Link>
                                                 <p>CONTINUE SHOPPING -></p>
                                             </div>
                                         </div>
