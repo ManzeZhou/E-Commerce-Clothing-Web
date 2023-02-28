@@ -46,9 +46,9 @@ const ProductPage = () => {
     const [swatchValue, setSwatchValue] = useState(null);
 
     //
-    // useEffect(() => {
-    //     console.log('swatchColor', swatchColor);
-    // }, [swatchColor]);
+    useEffect(() => {
+        console.log('sizeColor', sizeColor);
+    }, [sizeColor]);
     //
     // useEffect(() => {
     //     console.log('swatchValue', swatchValue);
@@ -132,6 +132,7 @@ const ProductPage = () => {
 
             }
         }
+        setSizeColor(null);
     };
 
     // show cart patch after clicking add to cart button
@@ -269,10 +270,11 @@ const ProductPage = () => {
                                                     marginLeft: '4px',
                                                     marginBottom: '16px',
                                                     borderRadius: '5px',
-                                                    backgroundColor: index === sizeColor ? 'black' : 'white',
-                                                    color: index === sizeColor ? 'white' : 'black'
+                                                    backgroundColor: parseInt(index) === parseInt(`${sizeColor}`) ? 'black' : 'white',
+                                                    color:  parseInt(index) === parseInt(`${sizeColor}`) ? 'white' : 'black'
                                                 }}
                                                 onClick={(e) => {
+                                                    // todo bgcolor doesn't change
                                                     setSizeColor(e.target.id);
                                                     setSizeValue(item);
 
@@ -300,7 +302,7 @@ const ProductPage = () => {
                                         }
                                         // if the product has a size but not selected, do not show patch
                                         else if (sizes[0]?.details.length !== 0 && !sizeColor) {
-                                            alert('please select a size')
+                                            alert('please select a size');
                                         } else if (sizes[0]?.details.length !== 0 && sizeColor) {
                                             setShow(true)
                                         }
