@@ -1,7 +1,7 @@
 import {useSelector} from "react-redux";
 import {Filter} from "../Filter/Filter";
 import Products from "../Products/Products";
-import {Outlet} from "react-router-dom";
+
 
 const Home = () => {
 

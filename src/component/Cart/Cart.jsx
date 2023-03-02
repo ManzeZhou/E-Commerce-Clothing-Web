@@ -17,6 +17,8 @@ const Cart = () => {
                   <p>{i.qty}</p>
               </div>
           }) : 'Give your bag some love!'}
+
+          {cartArr ? <h1>Total :{JSON.parse(localStorage.getItem('subtotalPrice'))}</h1>: null}
       </div>
   )
 }

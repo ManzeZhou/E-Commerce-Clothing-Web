@@ -1,9 +1,12 @@
 import {Link, useParams} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import { useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 
 
+
+
 const ProductPage = () => {
+
 
     const rawData = useSelector(state => state?.LuLuReducer?.rawData);
 
@@ -45,17 +48,10 @@ const ProductPage = () => {
 // swatch value for shopping cart
     const [swatchValue, setSwatchValue] = useState(null);
 
-    //
     useEffect(() => {
         console.log('sizeColor', sizeColor);
     }, [sizeColor]);
-    //
-    // useEffect(() => {
-    //     console.log('swatchValue', swatchValue);
-    // }, [swatchValue]);
 
-    // priceArr for check subtotalPrice and push each cartItem price into it
-    const priceArr = [];
 
     const addToCart = (name, price, sizes) => {
 
@@ -67,8 +63,6 @@ const ProductPage = () => {
                 'size': sizes[0]?.details.length === 0 ? 'default' : sizeValue,
                 'qty': 1
             }
-
-            // console.log('cartItem', cartItem);
 
             // localStorage.clear();
 
@@ -99,44 +93,70 @@ const ProductPage = () => {
 
                 console.log('cartArr', JSON.parse(localStorage.getItem('cartArr')));
 
-                const cartArr = JSON.parse(localStorage.getItem('cartArr'));
-
                 // check subtotal price
                 // todo first time does not show subtotal price + async problem
-                if (cartArr) {
-                    console.log(localStorage.getItem('subtotalPrice'));
-                    if (!localStorage.getItem('subtotalPrice')) {
-                        // localStorage.setItem('subtotalPrice', JSON.stringify(price));
-                        const newPrice = price.replace(/\$/g, '').replace(/\sCAD/g, '');
-                        console.log(newPrice);
-                        localStorage.setItem('subtotalPrice', JSON.stringify(newPrice));
-                        console.log('subtotalPrice from localStorage', JSON.parse(localStorage.getItem('subtotalPrice')));
-
-                    } else {
-                        console.log('cartArr', cartArr);
-
-                        cartArr.map((item) => {
-// each item's price should time it's qty
-                            priceArr.push(parseInt(item.price.replace(/\$/g, '').replace(/\sCAD/g, '')) * item.qty);
-                            console.log('priceArr', priceArr)
-                        });
-
-                        let subtotalPrice = priceArr.reduce((a, b) => a + b, 0);
-                        console.log('subtotalPrice',subtotalPrice);
-                        localStorage.setItem('subtotalPrice', JSON.stringify(subtotalPrice));
-                        console.log('subtotalPrice from localStorage', JSON.parse(localStorage.getItem('subtotalPrice')));
-
-                    }
-                }
-
 
             }
         }
         setSizeColor(null);
+
     };
 
     // show cart patch after clicking add to cart button
     const [show, setShow] = useState(false);
+
+    // show totalPrice
+    const [total, setTotal] = useState(null);
+
+    const cartArr = JSON.parse(localStorage.getItem('cartArr'));
+    useEffect(() => {
+        console.log('cartArr', cartArr)
+    })
+
+
+// calculate total price in shopping cart
+    useEffect(() => {
+
+        if (cartArr) {
+            // if shopping cart is empty, doesn't need to calculate, just show the current product price
+            if (!localStorage.getItem('subtotalPrice')) {
+                const newPrice = price.replace(/\$/g, '').replace(/\sCAD/g, '');
+                console.log(newPrice);
+                setTotal(newPrice);
+                localStorage.setItem('subtotalPrice', JSON.stringify(newPrice));
+                console.log('subtotalPrice from localStorage', JSON.parse(localStorage.getItem('subtotalPrice')));
+
+            } else {
+                const newCartArr = [...cartArr];
+                // priceArr for check subtotalPrice and push each cartItem price into it
+                const priceArr = []
+                newCartArr.map((item) => {
+// each item's price should time it's qty
+
+                    priceArr.push(parseInt(item.price.replace(/\$/g, '').replace(/\sCAD/g, '')) * item.qty);
+
+                    console.log('priceArr', priceArr);
+
+                });
+
+                let subtotalPrice = priceArr.reduce((a, b) => a + b, 0);
+                console.log('subtotalPrice', subtotalPrice);
+                setTotal(subtotalPrice)
+                localStorage.setItem('subtotalPrice', JSON.stringify(subtotalPrice));
+                console.log('subtotalPrice from localStorage', JSON.parse(localStorage.getItem('subtotalPrice')));
+
+
+            }
+        }
+
+        const subTotalPrice = JSON.parse(localStorage.getItem('subtotalPrice'));
+        console.log('subTotalPrice from useEffect', subTotalPrice);
+
+
+
+    }, [cartArr]);
+
+
 
 
 
@@ -271,7 +291,7 @@ const ProductPage = () => {
                                                     marginBottom: '16px',
                                                     borderRadius: '5px',
                                                     backgroundColor: parseInt(index) === parseInt(`${sizeColor}`) ? 'black' : 'white',
-                                                    color:  parseInt(index) === parseInt(`${sizeColor}`) ? 'white' : 'black'
+                                                    color: parseInt(index) === parseInt(`${sizeColor}`) ? 'white' : 'black'
                                                 }}
                                                 onClick={(e) => {
                                                     // todo bgcolor doesn't change
@@ -351,6 +371,10 @@ const ProductPage = () => {
                 </div>
             </div>
 
+            {/*shopping cart patch*/}
+
+
+
             <div
                 style={{
                     paddingLeft: '15px',
@@ -402,9 +426,10 @@ const ProductPage = () => {
                                         display: 'flex',
                                         flexDirection: 'row',
                                         alignItems: 'center',
-                                        justifyContent: 'space-around'}}>
+                                        justifyContent: 'space-around'
+                                    }}>
                                         <h1>Add To Your Bag</h1>
-                                        {/*// todo if same products added to cart with multiple qty*/}
+
                                         <p>items</p>
                                     </div>
 
@@ -444,9 +469,12 @@ const ProductPage = () => {
 
 
                                             <div style={{paddingLeft: '20px'}}>
-                                                <h3>Subtotal:
-                                                    $ {JSON.parse(localStorage.getItem('subtotalPrice'))}
-                                                    CAD</h3>
+
+
+                                                <h3>Subtotal: ${total} CAD
+                                                </h3>
+
+
                                                 <Link to='/cart'>
                                                     <button>VIEW BAG & CHECKOUT</button>
                                                 </Link>
@@ -464,7 +492,6 @@ const ProductPage = () => {
                     </div>
                 </div>
             </div>
-
 
         </div>
     )

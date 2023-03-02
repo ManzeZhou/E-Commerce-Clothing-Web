@@ -31,5 +31,9 @@ export const fetchAllDataInAction = () => async dispatch => {
 };
 
 
+// get subtotalPrice from shopping cart
+
+
+
 
 
