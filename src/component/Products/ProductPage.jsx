@@ -120,12 +120,11 @@ const ProductPage = () => {
 
         if (cartArr) {
             // if shopping cart is empty, doesn't need to calculate, just show the current product price
-            if (!localStorage.getItem('subtotalPrice')) {
-                // const newPrice = price.replace(/\$/g, '').replace(/\sCAD/g, '');
-                // console.log(newPrice);
-                // setTotal(newPrice)
+
+            const total = (localStorage.getItem('subtotalPrice'))
+            if (!total) {
+
                 setTotal(price);
-                // localStorage.setItem('subtotalPrice', JSON.stringify(newPrice));
                 localStorage.setItem('subtotalPrice', JSON.stringify(price));
                 console.log('subtotalPrice from localStorage', JSON.parse(localStorage.getItem('subtotalPrice')));
 

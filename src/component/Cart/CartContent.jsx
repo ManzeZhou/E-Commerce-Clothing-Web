@@ -4,11 +4,9 @@ const CartContent = ({i}) => {
 
     const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-    const [qty, setQty] = useState(1);
+    const [qty, setQty] = useState(parseInt(i.qty));
 
     const handleChangeQty = (e) => {
-        console.log(e)
-        console.log(e.target)
         setQty(e.target.value)
     }
 
@@ -39,7 +37,12 @@ const CartContent = ({i}) => {
 
                     <div style={{display: 'flex', flexDirection:'column'}}>
                         <span>Quantity</span>
-                        <select className="custom-select" id="inputGroupSelect01" onChange={handleChangeQty}>
+                        <select
+                            className="custom-select"
+                            id="inputGroupSelect01"
+                            value={qty}
+                            onChange={handleChangeQty}
+                        >
                             {options.map((option, index) => {
                                 return <option value={option} key={index}>{option}</option>
                             })}
