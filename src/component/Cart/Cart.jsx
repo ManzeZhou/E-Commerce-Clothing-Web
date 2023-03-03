@@ -1,4 +1,5 @@
-
+import CartContent from "./CartContent";
+import OrderSummary from "./OrderSummary";
 
 
 const Cart = () => {
@@ -7,18 +8,18 @@ const Cart = () => {
     console.log(cartArr);
 
   return (
-      <div>
-          <h1>Your Cart</h1>
-          {cartArr ? cartArr.map((i, index) => {
-              return <div key={index}>
-                  <p>{i.productName}</p>
-                  <p>{i.price}</p>
-                  <p>{i.swatch}</p>
-                  <p>{i.qty}</p>
-              </div>
-          }) : 'Give your bag some love!'}
+      <div style={{display:'flex', flexDirection:'row', justifyContent: 'space-evenly'}}>
+          <div>
+              <h1>Your Cart</h1>
+              {cartArr ? cartArr.map((i, index) => {
+                  return <CartContent key={index} i={i}/>
+              }) : 'Give your bag some love!'}
 
-          {cartArr ? <h1>Total :{JSON.parse(localStorage.getItem('subtotalPrice'))}</h1>: null}
+          </div>
+
+
+              <OrderSummary/>
+
       </div>
   )
 }

@@ -58,10 +58,11 @@ const ProductPage = () => {
         if (sizeColor || sizes[0]?.details.length === 0) {
             const cartItem = {
                 'productName': name,
-                'price': price,
+                'price': price.replace(/\$/g, '').replace(/\sCAD/g, ''),
                 'swatch': swatchValue,
                 'size': sizes[0]?.details.length === 0 ? 'default' : sizeValue,
-                'qty': 1
+                'qty': 1,
+                'imgURL': images[swatchColor]?.mainCarousel?.media?.split('|')[currentImg],
             }
 
             // localStorage.clear();
@@ -120,10 +121,12 @@ const ProductPage = () => {
         if (cartArr) {
             // if shopping cart is empty, doesn't need to calculate, just show the current product price
             if (!localStorage.getItem('subtotalPrice')) {
-                const newPrice = price.replace(/\$/g, '').replace(/\sCAD/g, '');
-                console.log(newPrice);
-                setTotal(newPrice);
-                localStorage.setItem('subtotalPrice', JSON.stringify(newPrice));
+                // const newPrice = price.replace(/\$/g, '').replace(/\sCAD/g, '');
+                // console.log(newPrice);
+                // setTotal(newPrice)
+                setTotal(price);
+                // localStorage.setItem('subtotalPrice', JSON.stringify(newPrice));
+                localStorage.setItem('subtotalPrice', JSON.stringify(price));
                 console.log('subtotalPrice from localStorage', JSON.parse(localStorage.getItem('subtotalPrice')));
 
             } else {
