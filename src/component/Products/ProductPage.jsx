@@ -1,8 +1,7 @@
 import {Link, useParams} from "react-router-dom";
-import { useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-
-
+import {calculateTotalPrice} from "../../Helper/Helper";
 
 
 const ProductPage = () => {
@@ -75,7 +74,7 @@ const ProductPage = () => {
             } else {
                 const cartLocal = JSON.parse(localStorage.getItem('cartArr'));
 
-                const indexToChange = cartLocal.findIndex(i => i.productName === name && i.swatch === swatchValue && i.size === sizeValue || i.size === 'default');
+                const indexToChange = cartLocal.findIndex(i => i.productName === name && i.swatch === swatchValue && (i.size === sizeValue || i.size === 'default'));
                 console.log('indexToChange', indexToChange);
 
                 // find the same item
@@ -93,9 +92,6 @@ const ProductPage = () => {
                 }
 
                 console.log('cartArr', JSON.parse(localStorage.getItem('cartArr')));
-
-                // check subtotal price
-                // todo first time does not show subtotal price + async problem
 
             }
         }
@@ -131,17 +127,21 @@ const ProductPage = () => {
             } else {
                 const newCartArr = [...cartArr];
                 // priceArr for check subtotalPrice and push each cartItem price into it
-                const priceArr = []
-                newCartArr.map((item) => {
-// each item's price should time it's qty
+                console.log('newCartArr', newCartArr)
+                // const priceArr = []
+                // newCartArr.map((item) => {
+                // // each item's price should time it's qty
+                //
+                //     // priceArr.push(parseInt(item.price.replace(/\$/g, '').replace(/\sCAD/g, '')) * item.qty);
+                //     priceArr.push(parseInt(item.price) * item.qty);
+                //     console.log('priceArr', priceArr);
+                //
+                // });
+                //
+                // let subtotalPrice = priceArr.reduce((a, b) => a + b, 0);
 
-                    priceArr.push(parseInt(item.price.replace(/\$/g, '').replace(/\sCAD/g, '')) * item.qty);
-
-                    console.log('priceArr', priceArr);
-
-                });
-
-                let subtotalPrice = priceArr.reduce((a, b) => a + b, 0);
+                const subtotalPrice = calculateTotalPrice(newCartArr);
+                localStorage.setItem('subtotalPrice', subtotalPrice);
                 console.log('subtotalPrice', subtotalPrice);
                 setTotal(subtotalPrice)
                 localStorage.setItem('subtotalPrice', JSON.stringify(subtotalPrice));
@@ -151,15 +151,11 @@ const ProductPage = () => {
             }
         }
 
-        const subTotalPrice = JSON.parse(localStorage.getItem('subtotalPrice'));
-        console.log('subTotalPrice from useEffect', subTotalPrice);
-
+        // const subTotalPrice = JSON.parse(localStorage.getItem('subtotalPrice'));
+        // console.log('subTotalPrice from useEffect', subTotalPrice);
 
 
     }, [cartArr]);
-
-
-
 
 
     return (
@@ -374,7 +370,6 @@ const ProductPage = () => {
             </div>
 
             {/*shopping cart patch*/}
-
 
 
             <div
