@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {calculateTotalPrice} from "../../Helper/Helper";
 
-const CartContent = ({i, setCartArr, setSubtotal}) => {
+const CartContent = ({i, setCartArr, setSubtotal, setItemQty}) => {
 
     const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -34,7 +34,22 @@ const CartContent = ({i, setCartArr, setSubtotal}) => {
         console.log(JSON.parse(cartArr));
         // generate new subtotal price in localstorage
         console.log('total',JSON.parse(localStorage.getItem('subtotalPrice')))
+
+
     }, ['cartArr', cartArr]);
+
+    // change product total qty
+    useEffect(() => {
+        const itemArr = [];
+        const cart = JSON.parse(cartArr)
+        cart.map((item) => {
+            itemArr.push(parseInt(item.qty));
+            console.log('itemArr',itemArr)
+        });
+        const itemTotalQty = itemArr.reduce((a, b) => a + b, 0);
+        console.log('itemTotalQty',itemTotalQty)
+        setItemQty(itemTotalQty);
+    }, [cartArr]);
 
 
     const handleRemove = () => {
@@ -83,6 +98,7 @@ const CartContent = ({i, setCartArr, setSubtotal}) => {
 
                     <div style={{display: 'flex', flexDirection: 'column'}}>
                         <span>Quantity</span>
+                        {/*todo if qty >= 10 add a limit*/}
                         {parseInt(i.qty) <= 10 ? <select
                             className="custom-select"
                             id="inputGroupSelect01"

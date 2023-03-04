@@ -105,6 +105,9 @@ const ProductPage = () => {
     // show totalPrice
     const [total, setTotal] = useState(null);
 
+    // show total products qty
+    const [totalQty, setTotalQty] = useState(null);
+
     const cartArr = JSON.parse(localStorage.getItem('cartArr'));
     useEffect(() => {
         console.log('cartArr', cartArr)
@@ -150,6 +153,17 @@ const ProductPage = () => {
 
             }
         }
+        // get product total qty
+
+        const itemArr = [];
+
+        cartArr.map((item) => {
+            itemArr.push(parseInt(item.qty));
+            console.log('itemArr',itemArr)
+        });
+        const itemTotalQty = itemArr.reduce((a, b) => a + b, 0);
+        console.log('itemTotalQty',itemTotalQty);
+        setTotalQty(itemTotalQty);
 
         // const subTotalPrice = JSON.parse(localStorage.getItem('subtotalPrice'));
         // console.log('subTotalPrice from useEffect', subTotalPrice);
@@ -427,7 +441,7 @@ const ProductPage = () => {
                                     }}>
                                         <h1>Add To Your Bag</h1>
 
-                                        <p>items</p>
+                                        <p>{totalQty}items</p>
                                     </div>
 
 

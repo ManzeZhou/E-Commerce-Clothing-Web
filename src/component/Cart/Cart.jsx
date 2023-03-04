@@ -1,6 +1,6 @@
 import CartContent from "./CartContent";
 import OrderSummary from "./OrderSummary";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 
 const Cart = () => {
@@ -16,6 +16,11 @@ const Cart = () => {
         localStorage.clear();
     }
 
+    const [itemQty, setItemQty] = useState(null);
+
+
+
+
   return (
 
       <div>
@@ -23,9 +28,9 @@ const Cart = () => {
 
           <div style={{display:'flex', flexDirection:'row', justifyContent: 'space-evenly'}}>
               <div>
-                  <h1>Your Cart</h1>
+                  <h1>My Bag ({itemQty}{itemQty > 1 ? 'Items' : 'Item'})</h1>
                   {cartArr ? cartArr.map((i, index) => {
-                      return <CartContent key={index} i={i} setCartArr={setCartArr} setSubtotal={setSubtotal}/>
+                      return <CartContent key={index} i={i} setCartArr={setCartArr} setSubtotal={setSubtotal} setItemQty={setItemQty}/>
                   }) : 'Give your bag some love!'}
 
               </div>
