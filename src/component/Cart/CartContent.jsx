@@ -1,12 +1,11 @@
 import {useEffect, useState} from "react";
 import {calculateTotalPrice} from "../../Helper/Helper";
 
-const CartContent = ({i, setCartArr, setSubtotal, setItemQty}) => {
-    console.log('i',i)
+const CartContent = ({i, setCartArr, setSubtotal, setItemQty, setEdit, setProductId, id, setIndex}) => {
 
     const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-    const [qty, setQty] = useState(null);
+    const [qty, setQty] = useState(undefined);
 
     const cartArr = localStorage.getItem('cartArr')
 
@@ -31,13 +30,6 @@ const CartContent = ({i, setCartArr, setSubtotal, setItemQty}) => {
         setQty(i.qty)
     }, [qty, cartArr]);
 
-    useEffect(() => {
-        console.log('cartArr from cartcontent',JSON.parse(cartArr));
-        // generate new subtotal price in localstorage
-        console.log('total',JSON.parse(localStorage.getItem('subtotalPrice')))
-
-
-    }, ['cartArr', cartArr]);
 
     // change product total qty
     useEffect(() => {
@@ -62,21 +54,12 @@ const CartContent = ({i, setCartArr, setSubtotal, setItemQty}) => {
         newCartArr.splice(indexToChange, 1);
         localStorage.setItem('cartArr', JSON.stringify(newCartArr));
         setCartArr(newCartArr);
-
-
-        // const priceArr = []
-        // newCartArr.map((item) => {
-        //     // each item's price should time it's qty
-        //
-        //     priceArr.push(parseInt(item.price) * item.qty);
-        //     console.log('priceArr', priceArr);
-        // });
-        // let subtotalPrice = priceArr.reduce((a, b) => a + b, 0);
-
+        //update total price
         const subtotalPrice = calculateTotalPrice(newCartArr);
         setSubtotal(subtotalPrice);
         localStorage.setItem('subtotalPrice', subtotalPrice);
-    }
+    };
+
 
 
     return (
@@ -91,7 +74,11 @@ const CartContent = ({i, setCartArr, setSubtotal, setItemQty}) => {
                 <p>Size {i.size}</p>
 
                 <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <button>Edit</button>
+                    <button onClick={() => {
+                      setEdit(true);
+                      setProductId(parseInt(i.id));
+                      setIndex(id);
+                    }}>Edit</button>
 
                     <div style={{display: 'flex', flexDirection: 'column'}}>
                         <span>Item Price</span>
@@ -114,7 +101,6 @@ const CartContent = ({i, setCartArr, setSubtotal, setItemQty}) => {
 
                         {/*}*/}
 
-                        {/*// todo change qty and remove it, the next qty changes*/}
                         <select
                             className="custom-select"
                             id="inputGroupSelect01"

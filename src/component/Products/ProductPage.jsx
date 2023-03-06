@@ -15,11 +15,14 @@ const ProductPage = () => {
     const data = JSON.parse(localStorage.getItem('rawData'));
 
     const products = data?.products;
+    console.log('products',products)
 
     const {id} = useParams();
+    console.log(typeof id)
 
     const currentProduct = products?.[parseInt(id)];
-    console.log(currentProduct)
+
+    console.log('currentProduct',currentProduct)
 
     const name = currentProduct?.name;
 
@@ -43,23 +46,25 @@ const ProductPage = () => {
 // size value for shopping cart
     const [sizeValue, setSizeValue] = useState(null);
 // swatch value for shopping cart
-    const [swatchValue, setSwatchValue] = useState(null);
+    const [swatchValue, setSwatchValue] = useState(swatches[0]?.swatchAlt);
 
     const cartArr = JSON.parse(localStorage.getItem('cartArr'));
-    useEffect(() => {
-        console.log('cartArr', cartArr)
-    });
+
 
     const addToCart = (name, price, sizes) => {
 
         if (sizeColor || sizes[0]?.details.length === 0) {
             const cartItem = {
                 'productName': name,
-                'price': price.replace(/\$/g, '').replace(/\sCAD/g, ''),
+                // 'price': price.replace(/\$/g, '').replace(/\sCAD/g, ''),
+                //some prices are a range instead of a number
+                'price': price.includes('-') ? price.replace(/\$/g, '').replace(/\sCAD/g, '').split('-')[0].trim() : price.replace(/\$/g, '').replace(/\sCAD/g, ''),
                 'swatch': swatchValue,
                 'size': sizes[0]?.details.length === 0 ? 'default' : sizeValue,
                 'qty': 1,
                 'imgURL': images[swatchColor]?.mainCarousel?.media?.split('|')[currentImg],
+                'id': id,
+
             }
 
             // localStorage.clear();
@@ -68,18 +73,17 @@ const ProductPage = () => {
 
                 let newCartItems = [{...cartItem}];
                 localStorage.setItem('cartArr', JSON.stringify(newCartItems));
-                console.log('cartArr', JSON.parse(localStorage.getItem('cartArr')));
+
             } else {
                 const cartLocal = JSON.parse(localStorage.getItem('cartArr'));
 
                 const indexToChange = cartLocal.findIndex(i => i.productName === name && i.swatch === swatchValue && (i.size === sizeValue || i.size === 'default'));
-                console.log('indexToChange', indexToChange);
 
                 // find the same item
                 if (indexToChange !== -1) {
                     const newCartLocal = [...cartLocal]
                     newCartLocal[indexToChange].qty = parseInt(newCartLocal[indexToChange].qty) + 1;
-                    console.log('newCartLocal', newCartLocal)
+
 
                     localStorage.setItem('cartArr', JSON.stringify(newCartLocal));
 
@@ -89,7 +93,7 @@ const ProductPage = () => {
                     localStorage.setItem('cartArr', JSON.stringify(newCartItems));
                 }
 
-                console.log('cartArr', JSON.parse(localStorage.getItem('cartArr')));
+
 
             }
         }
@@ -126,17 +130,6 @@ const ProductPage = () => {
                 const newCartArr = [...cartArr];
                 // priceArr for check subtotalPrice and push each cartItem price into it
                 console.log('newCartArr', newCartArr)
-                // const priceArr = []
-                // newCartArr.map((item) => {
-                // // each item's price should time it's qty
-                //
-                //     // priceArr.push(parseInt(item.price.replace(/\$/g, '').replace(/\sCAD/g, '')) * item.qty);
-                //     priceArr.push(parseInt(item.price) * item.qty);
-                //     console.log('priceArr', priceArr);
-                //
-                // });
-                //
-                // let subtotalPrice = priceArr.reduce((a, b) => a + b, 0);
 
                 const subtotalPrice = calculateTotalPrice(newCartArr);
                 localStorage.setItem('subtotalPrice', subtotalPrice);
@@ -147,7 +140,7 @@ const ProductPage = () => {
 
 
             }
-
+            // get product total qty
             const itemArr = [];
 
             cartArr.map((item) => {
@@ -158,12 +151,7 @@ const ProductPage = () => {
             console.log('itemTotalQty',itemTotalQty);
             setTotalQty(itemTotalQty);
         }
-        // get product total qty
 
-
-
-        // const subTotalPrice = JSON.parse(localStorage.getItem('subtotalPrice'));
-        // console.log('subTotalPrice from useEffect', subTotalPrice);
 
 
     }, [cartArr]);
