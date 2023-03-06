@@ -27,8 +27,6 @@ const ProductPage = () => {
 
     const sizes = currentProduct?.sizes;
 
-    console.log(sizes)
-
     const images = currentProduct?.images;
 
     const swatches = currentProduct?.swatches;
@@ -47,10 +45,10 @@ const ProductPage = () => {
 // swatch value for shopping cart
     const [swatchValue, setSwatchValue] = useState(null);
 
+    const cartArr = JSON.parse(localStorage.getItem('cartArr'));
     useEffect(() => {
-        console.log('sizeColor', sizeColor);
-    }, [sizeColor]);
-
+        console.log('cartArr', cartArr)
+    });
 
     const addToCart = (name, price, sizes) => {
 
@@ -108,10 +106,7 @@ const ProductPage = () => {
     // show total products qty
     const [totalQty, setTotalQty] = useState(null);
 
-    const cartArr = JSON.parse(localStorage.getItem('cartArr'));
-    useEffect(() => {
-        console.log('cartArr', cartArr)
-    })
+
 
 
 // calculate total price in shopping cart
@@ -152,18 +147,20 @@ const ProductPage = () => {
 
 
             }
+
+            const itemArr = [];
+
+            cartArr.map((item) => {
+                itemArr.push(parseInt(item.qty));
+                console.log('itemArr',itemArr)
+            });
+            const itemTotalQty = itemArr.reduce((a, b) => a + b, 0);
+            console.log('itemTotalQty',itemTotalQty);
+            setTotalQty(itemTotalQty);
         }
         // get product total qty
 
-        const itemArr = [];
 
-        cartArr.map((item) => {
-            itemArr.push(parseInt(item.qty));
-            console.log('itemArr',itemArr)
-        });
-        const itemTotalQty = itemArr.reduce((a, b) => a + b, 0);
-        console.log('itemTotalQty',itemTotalQty);
-        setTotalQty(itemTotalQty);
 
         // const subTotalPrice = JSON.parse(localStorage.getItem('subtotalPrice'));
         // console.log('subTotalPrice from useEffect', subTotalPrice);
