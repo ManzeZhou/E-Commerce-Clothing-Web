@@ -60,7 +60,7 @@ const ProductPage = () => {
                 //some prices are a range instead of a number
                 'price': price.includes('-') ? price.replace(/\$/g, '').replace(/\sCAD/g, '').split('-')[0].trim() : price.replace(/\$/g, '').replace(/\sCAD/g, ''),
                 'swatch': swatchValue,
-                'size': sizes[0]?.details.length === 0 ? 'default' : sizeValue,
+                'size': sizes[0]?.details.length === 0 ? 'ONE SIZE' : sizeValue,
                 'qty': 1,
                 'imgURL': images[swatchColor]?.mainCarousel?.media?.split('|')[currentImg],
                 'id': id,
@@ -77,7 +77,7 @@ const ProductPage = () => {
             } else {
                 const cartLocal = JSON.parse(localStorage.getItem('cartArr'));
 
-                const indexToChange = cartLocal.findIndex(i => i.productName === name && i.swatch === swatchValue && (i.size === sizeValue || i.size === 'default'));
+                const indexToChange = cartLocal.findIndex(i => i.productName === name && i.swatch === swatchValue && (i.size === sizeValue || i.size === 'ONE SIZE'));
 
                 // find the same item
                 if (indexToChange !== -1) {

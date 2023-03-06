@@ -34,7 +34,8 @@ const CartContent = ({i, setCartArr, setSubtotal, setItemQty, setEdit, setProduc
     // change product total qty
     useEffect(() => {
         const itemArr = [];
-        const cart = JSON.parse(cartArr)
+        const cart = JSON.parse(cartArr);
+        console.log('cart test',cart)
         cart.map((item) => {
             itemArr.push(parseInt(item.qty));
             console.log('itemArr',itemArr)
@@ -42,6 +43,7 @@ const CartContent = ({i, setCartArr, setSubtotal, setItemQty, setEdit, setProduc
         const itemTotalQty = itemArr.reduce((a, b) => a + b, 0);
         console.log('itemTotalQty',itemTotalQty)
         setItemQty(itemTotalQty);
+
     }, [cartArr]);
 
 
@@ -54,6 +56,9 @@ const CartContent = ({i, setCartArr, setSubtotal, setItemQty, setEdit, setProduc
         newCartArr.splice(indexToChange, 1);
         localStorage.setItem('cartArr', JSON.stringify(newCartArr));
         setCartArr(newCartArr);
+        if(newCartArr.length === 0) {
+            setItemQty(0)
+        }
         //update total price
         const subtotalPrice = calculateTotalPrice(newCartArr);
         setSubtotal(subtotalPrice);
