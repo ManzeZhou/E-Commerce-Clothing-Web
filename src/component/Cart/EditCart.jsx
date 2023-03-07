@@ -15,7 +15,7 @@ const EditCart = ({setEdit, productId, cartArr, index}) => {
     const sizes = currentEditProduct?.sizes;
 
     const images = currentEditProduct?.images;
-    console.log('images',images)
+    console.log('images', images)
 
     const swatches = currentEditProduct?.swatches;
 
@@ -32,16 +32,25 @@ const EditCart = ({setEdit, productId, cartArr, index}) => {
 
     const currentColorIndex = images?.findIndex((image) => image.colorAlt === color);
     console.log('currentColorIndex', currentColorIndex);
+
+    // find index of different color
     const [imgIndex, setImgIndex] = useState(null);
 
-    const [swatch, setSwatch] = useState(color);
+    const [swatch, setSwatch] = useState(null);
+
+
     useEffect(() => {
         setImgIndex(currentColorIndex)
-        console.log('swatch',swatch)
-    });
+        console.log('swatch', swatch)
+    }, [currentColorIndex]);
 
+    // show selected color from cartArr
+    useEffect(() => {
+        setSwatch(color);
+    }, [color]);
 
-
+    // img carousel
+    const [playIndex, setPlayIndex] = useState(0);
 
 
     return (
@@ -86,8 +95,19 @@ const EditCart = ({setEdit, productId, cartArr, index}) => {
                                 <div style={{width: '548px'}}>
                                     <img
                                         // todo carousel
-                                        src={images[imgIndex]?.mainCarousel?.media?.split('|')[0]}
+                                        src={images[imgIndex]?.mainCarousel?.media?.split('|')[playIndex]}
                                         alt="" style={{maxWidth: '100%'}}/>
+                                    <button
+                                        style={{width: '30px'}}
+                                        onClick={() => {
+                                            if (playIndex === images[imgIndex]?.mainCarousel?.media?.split('|').length - 1) {
+                                                setPlayIndex(0)
+                                            } else {
+                                                setPlayIndex(playIndex + 1);
+                                            }
+                                        }}
+                                    > >
+                                    </button>
                                 </div>
 
                                 <div>
@@ -108,7 +128,11 @@ const EditCart = ({setEdit, productId, cartArr, index}) => {
                                                     marginRight: '14.4px',
                                                     marginBottom: '8px'
                                                 }}
-                                                onClick={() => {setSwatch(swatch.swatchAlt)}}
+                                                onClick={() => {
+                                                    setSwatch(swatch.swatchAlt)
+                                                    setImgIndex(index)
+                                                    setPlayIndex(0)
+                                                }}
                                             />
 
                                         })}
