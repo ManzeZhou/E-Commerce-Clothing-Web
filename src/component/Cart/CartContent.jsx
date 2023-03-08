@@ -6,6 +6,8 @@ const CartContent = ({i, setCartArr, setSubtotal, setItemQty, setEdit, setProduc
 
     const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
+    console.log('qty----->', parseInt(i.qty))
+
     const [qty, setQty] = useState(undefined);
 
     // const cartArr = localStorage.getItem('cartArr')
@@ -13,20 +15,40 @@ const CartContent = ({i, setCartArr, setSubtotal, setItemQty, setEdit, setProduc
 
     // change qty and price in local storage
     const handleChangeQty = (e) => {
-        setQty(e.target.value);
-        // const cart = JSON.parse(cartArr);
-        const cart = [...cartArr];
-        const indexToChange = cart.findIndex(product => product.productName === i.productName && product.size === i.size && product.swatch === i.swatch)
-        console.log('indexToChange', indexToChange)
-        const newCartArr = [...cart];
-        newCartArr[indexToChange].qty = e.target.value;
-        localStorage.setItem('cartArr', JSON.stringify(newCartArr));
+        const newQty = parseInt(e.target.value)
+        if(!isNaN(newQty) && newQty > 0 && newQty <= 100 ) {
+            setQty(e.target.value);
+            // const cart = JSON.parse(cartArr);
+            const cart = [...cartArr];
+            const indexToChange = cart.findIndex(product => product.productName === i.productName && product.size === i.size && product.swatch === i.swatch)
+            console.log('indexToChange', indexToChange)
+            const newCartArr = [...cart];
+            newCartArr[indexToChange].qty = e.target.value;
+            localStorage.setItem('cartArr', JSON.stringify(newCartArr));
 
-        setCartArr(newCartArr);
+            setCartArr(newCartArr);
 
-        const subtotalPrice = calculateTotalPrice(newCartArr);
-        localStorage.setItem('subtotalPrice', subtotalPrice);
-        setSubtotal(subtotalPrice);
+            const subtotalPrice = calculateTotalPrice(newCartArr);
+            localStorage.setItem('subtotalPrice', subtotalPrice);
+            setSubtotal(subtotalPrice);
+        } else {
+            alert('qty need to be a positive integer and no more than 100')
+            e.target.value = i.qty;
+        }
+        // setQty(e.target.value);
+        // // const cart = JSON.parse(cartArr);
+        // const cart = [...cartArr];
+        // const indexToChange = cart.findIndex(product => product.productName === i.productName && product.size === i.size && product.swatch === i.swatch)
+        // console.log('indexToChange', indexToChange)
+        // const newCartArr = [...cart];
+        // newCartArr[indexToChange].qty = e.target.value;
+        // localStorage.setItem('cartArr', JSON.stringify(newCartArr));
+        //
+        // setCartArr(newCartArr);
+        //
+        // const subtotalPrice = calculateTotalPrice(newCartArr);
+        // localStorage.setItem('subtotalPrice', subtotalPrice);
+        // setSubtotal(subtotalPrice);
     }
 
     useEffect(() => {
@@ -100,20 +122,7 @@ const CartContent = ({i, setCartArr, setSubtotal, setItemQty, setEdit, setProduc
                     <div style={{display: 'flex', flexDirection: 'column'}}>
                         <span>Quantity</span>
                         {/*todo if qty >= 10 add a limit*/}
-                        {/*{parseInt(i.qty) <= 10 ? <select*/}
-                        {/*    className="custom-select"*/}
-                        {/*    id="inputGroupSelect01"*/}
-                        {/*    value={qty}*/}
-                        {/*    onChange={handleChangeQty}*/}
-                        {/*>*/}
-                        {/*    {options.map((option, index) => {*/}
-                        {/*        return <option value={option} key={index}>{option}</option>*/}
-                        {/*    })}*/}
-                        {/*</select> : <p>{i.qty}</p>*/}
-
-                        {/*}*/}
-
-                        <select
+                        {parseInt(i.qty) <= 10 ? <select
                             className="custom-select"
                             id="inputGroupSelect01"
                             value={qty}
@@ -122,12 +131,25 @@ const CartContent = ({i, setCartArr, setSubtotal, setItemQty, setEdit, setProduc
                             {options.map((option, index) => {
                                 return <option value={option} key={index}>{option}</option>
                             })}
-                        </select>
+                        {/*    todo onchange handler*/}
+                        </select> : <input type="number" defaultValue={i.qty} onChange={handleChangeQty} min='10' max='100' step='1'></input>
+                        }
+
+                        {/*<select*/}
+                        {/*    className="custom-select"*/}
+                        {/*    id="inputGroupSelect01"*/}
+                        {/*    value={qty}*/}
+                        {/*    onChange={handleChangeQty}*/}
+                        {/*>*/}
+                        {/*    {options.map((option, index) => {*/}
+                        {/*        return <option value={option} key={index}>{option}</option>*/}
+                        {/*    })}*/}
+                        {/*</select>*/}
                     </div>
 
                     <div style={{display: 'flex', flexDirection: 'column'}}>
                         <span>Total Price </span>
-                        <span>${parseInt(i.price) * parseInt(qty)}.00</span>
+                        <span>${parseInt(i.price) * parseInt(i.qty)}.00</span>
                     </div>
                     <button onClick={handleRemove}>remove</button>
                 </div>

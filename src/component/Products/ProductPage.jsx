@@ -93,8 +93,6 @@ const ProductPage = () => {
                     localStorage.setItem('cartArr', JSON.stringify(newCartItems));
                 }
 
-
-
             }
         }
         setSizeColor(null);

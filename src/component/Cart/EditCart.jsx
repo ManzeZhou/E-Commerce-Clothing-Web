@@ -18,6 +18,7 @@ const EditCart = ({setEdit, productId, cartArr, index, setCartArr}) => {
     console.log('images', images)
 
     const swatches = currentEditProduct?.swatches;
+    console.log('swatches----->',swatches)
 
     console.log('cartArr', cartArr);
 
@@ -57,11 +58,10 @@ const EditCart = ({setEdit, productId, cartArr, index, setCartArr}) => {
 
     useEffect(() => {
         setSelectedSize(size)
-    }, [size, cartArr]);
+    }, [cartArr]);
 
 
     const handleUpdate = () => {
-        // todo if change one product size/swatch to exact same with the other product, combine two of them
 
         // const newCart = [...cartArr];
         // newCart[index].swatch = swatch;
@@ -75,18 +75,33 @@ const EditCart = ({setEdit, productId, cartArr, index, setCartArr}) => {
         // localStorage.setItem('cartArr', JSON.stringify(newCart));
 
         const indexToChange = cartArr.findIndex(i => i.productName === name && i.swatch === swatch && (i.size === selectSize || i.size === 'ONE SIZE'));
-        // if find the same product, change qty
+        console.log('indexToChange',indexToChange)
+        // if find the same product, change qty only
         if(indexToChange !== -1){
-            console.log('indexToChange ---->',indexToChange);
-            console.log('index ----->',index)
-            const newCartArr = [...cartArr]
-            newCartArr[indexToChange].qty += quantity;
-            // delete the original object
-            newCartArr.splice(index, 1);
+            // console.log('indexToChange ---->',indexToChange);
+            // console.log('index ----->',index)
+            // const newCartArr = [...cartArr]
+            // newCartArr[indexToChange].qty = parseInt(quantity) + parseInt(newCartArr[indexToChange].qty);
+            // // delete the original object
+            // newCartArr.splice(index, 1);
+            // setCartArr(newCartArr);
+            // localStorage.setItem('cartArr', JSON.stringify(newCartArr));
 
-            setCartArr(newCartArr);
-            localStorage.setItem('cartArr', JSON.stringify(newCartArr));
+            const newCartArr = [...cartArr]
+            const currentSize = newCartArr[indexToChange].size;
+// if the product only has one size and one color, do not update or change it
+            if(currentSize !== 'ONE SIZE' && swatches.length !== 1){
+                console.log('indexToChange ---->',indexToChange);
+                console.log('index ----->',index)
+                const newCartArr = [...cartArr]
+                newCartArr[indexToChange].qty = parseInt(quantity) + parseInt(newCartArr[indexToChange].qty);
+                // delete the original object
+                newCartArr.splice(index, 1);
+                setCartArr(newCartArr);
+                localStorage.setItem('cartArr', JSON.stringify(newCartArr));
+            }
         } else {
+            // if not the same, push it into cartArr
             const newCart = [...cartArr];
             newCart[index].swatch = swatch;
             // if only has one size, then do not change size
@@ -217,6 +232,7 @@ const EditCart = ({setEdit, productId, cartArr, index, setCartArr}) => {
                                     }
 
                                     </div>
+                                    {/*todo if only have one size and one color*/}
                                     <button
                                         onClick={handleUpdate}
                                     >UPDATE ITEM</button>
