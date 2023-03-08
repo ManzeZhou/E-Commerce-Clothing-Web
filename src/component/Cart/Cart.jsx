@@ -21,7 +21,7 @@ const Cart = () => {
 
     const [itemQty, setItemQty] = useState(0);
 
-    // Edit Cart after clicking edit button
+    // show Edit Cart after clicking edit button
     const [edit, setEdit] = useState(false);
 
     const [index, setIndex] = useState(null);
@@ -36,8 +36,8 @@ const Cart = () => {
                 <div>
                     <h1>My Bag ({itemQty}{itemQty === 0 || itemQty === 1 ? 'Item' : 'Items'})</h1>
                     {cartArr ? cartArr.map((i, index) => {
-                        return <CartContent key={index} id={index} setIndex={setIndex} i={i} setCartArr={setCartArr} setSubtotal={setSubtotal}
-                                            setItemQty={setItemQty} setEdit={setEdit} setProductId = {setProductId}/>
+                        return <CartContent key={index} id={index} setIndex={setIndex} i={i} cartArr={cartArr} setCartArr={setCartArr} setSubtotal={setSubtotal}
+                                            setItemQty={setItemQty} setEdit={setEdit} setProductId = {setProductId} />
                     }) : 'Give your bag some love!'}
 
                 </div>
@@ -49,7 +49,9 @@ const Cart = () => {
 
 
             <div style={{display: edit ? 'block' : 'none'}}>
-                <EditCart setEdit={setEdit} productId={productId} cartArr={cartArr} index={index}/>
+                {cartArr &&
+                    <EditCart setEdit={setEdit} productId={productId} cartArr={cartArr} setCartArr={setCartArr} index={index}/>
+                }
             </div>
 
         </div>

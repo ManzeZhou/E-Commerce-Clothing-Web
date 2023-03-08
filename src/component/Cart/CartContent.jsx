@@ -1,18 +1,21 @@
 import {useEffect, useState} from "react";
 import {calculateTotalPrice} from "../../Helper/Helper";
+import cart from "./Cart";
 
-const CartContent = ({i, setCartArr, setSubtotal, setItemQty, setEdit, setProductId, id, setIndex}) => {
+const CartContent = ({i, setCartArr, setSubtotal, setItemQty, setEdit, setProductId, id, setIndex, cartArr}) => {
 
     const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     const [qty, setQty] = useState(undefined);
 
-    const cartArr = localStorage.getItem('cartArr')
+    // const cartArr = localStorage.getItem('cartArr')
+
 
     // change qty and price in local storage
     const handleChangeQty = (e) => {
         setQty(e.target.value);
-        const cart = JSON.parse(cartArr);
+        // const cart = JSON.parse(cartArr);
+        const cart = [...cartArr];
         const indexToChange = cart.findIndex(product => product.productName === i.productName && product.size === i.size && product.swatch === i.swatch)
         console.log('indexToChange', indexToChange)
         const newCartArr = [...cart];
@@ -30,11 +33,15 @@ const CartContent = ({i, setCartArr, setSubtotal, setItemQty, setEdit, setProduc
         setQty(i.qty)
     }, [qty, cartArr]);
 
+    useEffect(() => {
+        console.log('cartArr from cartpage',cartArr)
+    }, cartArr)
+
 
     // change product total qty
     useEffect(() => {
         const itemArr = [];
-        const cart = JSON.parse(cartArr);
+        const cart = [...cartArr];
         console.log('cart test',cart)
         cart.map((item) => {
             itemArr.push(parseInt(item.qty));
@@ -49,7 +56,7 @@ const CartContent = ({i, setCartArr, setSubtotal, setItemQty, setEdit, setProduc
 
     const handleRemove = () => {
         // remove item from cart
-        const cart = JSON.parse(cartArr);
+        const cart = [...cartArr];
         const indexToChange = cart.findIndex(product => product.productName === i.productName && product.size === i.size && product.swatch === i.swatch);
         console.log('remove index', indexToChange);
         const newCartArr = [...cart];

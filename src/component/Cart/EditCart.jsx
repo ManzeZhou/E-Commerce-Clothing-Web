@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-const EditCart = ({setEdit, productId, cartArr, index}) => {
+const EditCart = ({setEdit, productId, cartArr, index, setCartArr}) => {
 
     const rawData = JSON.parse(localStorage.getItem('rawData'));
     const {products} = rawData;
@@ -13,20 +13,19 @@ const EditCart = ({setEdit, productId, cartArr, index}) => {
     const price = currentEditProduct?.price;
 
     const sizes = currentEditProduct?.sizes;
-
+    console.log('sizes',sizes)
     const images = currentEditProduct?.images;
     console.log('images', images)
 
     const swatches = currentEditProduct?.swatches;
 
     console.log('cartArr', cartArr);
-    const [cart, setCart] = useState(cartArr);
-    // todo
 
     // current product index in cartArr
     console.log('index', index);
 
-    const color = cart[index]?.swatch;
+    const color = cartArr[index]?.swatch;
+    const size = cartArr[index]?.size
 
     console.log('color', color)
 
@@ -47,10 +46,39 @@ const EditCart = ({setEdit, productId, cartArr, index}) => {
     // show selected color from cartArr
     useEffect(() => {
         setSwatch(color);
-    }, [color]);
+    }, [color, cartArr]);
 
     // img carousel
     const [playIndex, setPlayIndex] = useState(0);
+
+    // selected size from cartArr
+    const [selectSize, setSelectedSize] = useState(null);
+
+    useEffect(() => {
+        setSelectedSize(size)
+    }, [size, cartArr]);
+
+
+    const handleUpdate = () => {
+        // todo if change one product size/swatch to exact same with the other product, combine two of them
+        const newCart = [...cartArr];
+        newCart[index].swatch = swatch;
+        // if only has one size, then do not change size
+        if(sizes[0].details.length !== 0) {
+            newCart[index].size = selectSize;
+        }
+        newCart[index].imgURL = images[imgIndex]?.mainCarousel?.media?.split('|')[0];
+        console.log('newCart',newCart);
+
+        setCartArr(newCart);
+        localStorage.setItem('cartArr', JSON.stringify(newCart));
+        setEdit(false);
+    }
+    useEffect(() => {
+        console.log('cartArr from edit page',cartArr)
+    }, [cartArr])
+
+
 
 
     return (
@@ -72,7 +100,7 @@ const EditCart = ({setEdit, productId, cartArr, index}) => {
             }}
         >
             <div style={{paddingLeft: '25px', paddingRight: '25px'}}>
-                {images && swatches &&
+                {cartArr && images && swatches && sizes &&
                     <div style={{display: 'flex', justifyContent: 'center', textAlign: 'center'}}>
 
 
@@ -85,16 +113,15 @@ const EditCart = ({setEdit, productId, cartArr, index}) => {
                             position: 'relative'
                         }}>
 
-                            <button
-                                style={{right: '5px', position: 'absolute', width: '30px'}}
-                                onClick={() => setEdit(false)}
-                            >x
-                            </button>
+                            {/*<button*/}
+                            {/*    style={{right: '5px', position: 'absolute', width: '30px'}}*/}
+                            {/*    onClick={() => setEdit(false)}*/}
+                            {/*>x*/}
+                            {/*</button>*/}
 
                             <div style={{display: 'flex', flexDirection: 'row'}}>
                                 <div style={{width: '548px'}}>
                                     <img
-                                        // todo carousel
                                         src={images[imgIndex]?.mainCarousel?.media?.split('|')[playIndex]}
                                         alt="" style={{maxWidth: '100%'}}/>
                                     <button
@@ -110,7 +137,7 @@ const EditCart = ({setEdit, productId, cartArr, index}) => {
                                     </button>
                                 </div>
 
-                                <div>
+                                <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
                                     <h1>product name: {name}</h1>
                                     <p>{price}</p>
                                     <span>color: {swatch}</span>
@@ -137,6 +164,35 @@ const EditCart = ({setEdit, productId, cartArr, index}) => {
 
                                         })}
                                     </div>
+                                    <span>Size:</span>
+
+                                    <div>
+                                        {sizes[0].details.length === 0 ? 'ONE SIZE':
+                                        sizes[0].details.map((item, index) => {
+
+                                                return <button
+                                                    key={index}
+                                                    id={item}
+                                                    style={{
+                                                        height: '36px',
+                                                        width: '36px',
+                                                        marginRight: '4px',
+                                                        marginLeft: '4px',
+                                                        marginBottom: '16px',
+                                                        borderRadius: '5px',
+                                                        backgroundColor: String(item) === String(selectSize) ? 'black' : 'white',
+                                                        color: String(item) === String(selectSize)  ? 'white' : 'black'
+                                                    }}
+                                                    onClick={(e) => setSelectedSize(e.target.id)}
+                                                >{item}</button>
+                                            })
+
+                                    }
+
+                                    </div>
+                                    <button
+                                        onClick={handleUpdate}
+                                    >UPDATE ITEM</button>
                                 </div>
                             </div>
 

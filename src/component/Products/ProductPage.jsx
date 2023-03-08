@@ -291,7 +291,7 @@ const ProductPage = () => {
                                                     color: parseInt(index) === parseInt(`${sizeColor}`) ? 'white' : 'black'
                                                 }}
                                                 onClick={(e) => {
-                                                    // todo bgcolor doesn't change
+
                                                     setSizeColor(e.target.id);
                                                     setSizeValue(item);
 
