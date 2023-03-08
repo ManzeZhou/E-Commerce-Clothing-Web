@@ -25,7 +25,9 @@ const EditCart = ({setEdit, productId, cartArr, index, setCartArr}) => {
     console.log('index', index);
 
     const color = cartArr[index]?.swatch;
-    const size = cartArr[index]?.size
+    const size = cartArr[index]?.size;
+    const quantity =cartArr[index]?.qty;
+
 
     console.log('color', color)
 
@@ -36,6 +38,8 @@ const EditCart = ({setEdit, productId, cartArr, index, setCartArr}) => {
     const [imgIndex, setImgIndex] = useState(null);
 
     const [swatch, setSwatch] = useState(null);
+    // selected size from cartArr
+    const [selectSize, setSelectedSize] = useState(null);
 
 
     useEffect(() => {
@@ -51,9 +55,6 @@ const EditCart = ({setEdit, productId, cartArr, index, setCartArr}) => {
     // img carousel
     const [playIndex, setPlayIndex] = useState(0);
 
-    // selected size from cartArr
-    const [selectSize, setSelectedSize] = useState(null);
-
     useEffect(() => {
         setSelectedSize(size)
     }, [size, cartArr]);
@@ -61,17 +62,43 @@ const EditCart = ({setEdit, productId, cartArr, index, setCartArr}) => {
 
     const handleUpdate = () => {
         // todo if change one product size/swatch to exact same with the other product, combine two of them
-        const newCart = [...cartArr];
-        newCart[index].swatch = swatch;
-        // if only has one size, then do not change size
-        if(sizes[0].details.length !== 0) {
-            newCart[index].size = selectSize;
-        }
-        newCart[index].imgURL = images[imgIndex]?.mainCarousel?.media?.split('|')[0];
-        console.log('newCart',newCart);
 
-        setCartArr(newCart);
-        localStorage.setItem('cartArr', JSON.stringify(newCart));
+        // const newCart = [...cartArr];
+        // newCart[index].swatch = swatch;
+        // // if only has one size, then do not change size
+        // if(sizes[0].details.length !== 0) {
+        //     newCart[index].size = selectSize;
+        // }
+        // newCart[index].imgURL = images[imgIndex]?.mainCarousel?.media?.split('|')[0];
+        // console.log('newCart',newCart);
+        // setCartArr(newCart);
+        // localStorage.setItem('cartArr', JSON.stringify(newCart));
+
+        const indexToChange = cartArr.findIndex(i => i.productName === name && i.swatch === swatch && (i.size === selectSize || i.size === 'ONE SIZE'));
+        // if find the same product, change qty
+        if(indexToChange !== -1){
+            console.log('indexToChange ---->',indexToChange);
+            console.log('index ----->',index)
+            const newCartArr = [...cartArr]
+            newCartArr[indexToChange].qty += quantity;
+            // delete the original object
+            newCartArr.splice(index, 1);
+
+            setCartArr(newCartArr);
+            localStorage.setItem('cartArr', JSON.stringify(newCartArr));
+        } else {
+            const newCart = [...cartArr];
+            newCart[index].swatch = swatch;
+            // if only has one size, then do not change size
+            if(sizes[0].details.length !== 0) {
+                newCart[index].size = selectSize;
+            }
+            newCart[index].imgURL = images[imgIndex]?.mainCarousel?.media?.split('|')[0];
+            console.log('newCart',newCart);
+            setCartArr(newCart);
+            localStorage.setItem('cartArr', JSON.stringify(newCart));
+        }
+
         setEdit(false);
     }
     useEffect(() => {
