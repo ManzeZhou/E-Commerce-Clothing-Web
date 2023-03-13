@@ -56,8 +56,8 @@ const CartContent = ({i, setCartArr, setSubtotal, setItemQty, setEdit, setProduc
     }, [qty, cartArr]);
 
     useEffect(() => {
-        console.log('cartArr from cartpage',cartArr)
-    }, cartArr)
+        console.log('cartArr from cart page',cartArr)
+    }, [cartArr])
 
 
     // change product total qty
