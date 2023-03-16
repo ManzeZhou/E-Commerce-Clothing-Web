@@ -1,8 +1,10 @@
 import {useSelector} from "react-redux";
+import InputFilter from "./InputFilter";
 
 
 
-export const GenderFilter = ({gender}) => {
+export const GenderFilter = ({gender, filters}) => {
+
 
 
 
@@ -12,10 +14,13 @@ export const GenderFilter = ({gender}) => {
             <h1>Gender</h1>
             {gender && gender.map((i, index) => {
 
-                                    return <div key={index}>
-                                        <input type="checkbox"/>
-                                        <label>{i.name}</label>
-                                    </div>
+                                    return <InputFilter i={i} key={index} filters={filters}/>
+                // (
+                //                         <div key={index}>
+                //                             <input type="checkbox"/>
+                //                             <label>{i.name}</label>
+                //                         </div>
+                //                     )
 
                             })
                         }

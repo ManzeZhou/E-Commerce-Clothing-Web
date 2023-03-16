@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchAllDataInAction, fetchProductAPI} from "./action/action";
 import {Filter} from "./component/Filter/Filter";
 import Products from "./component/Products/Products";
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, useParams} from "react-router-dom";
 import Home from "./component/Home/Home";
 import ProductPage from "./component/Products/ProductPage";
 import home from "./component/Home/Home";
@@ -42,30 +42,29 @@ function App() {
 
     useEffect(() => {
         dispatch(fetchAllDataInAction())
-    }, []);
+    },[]);
 
     const rawData = useSelector(state => state?.LuLuReducer?.rawData);
 
 
+
+
     return (
 
-        <Routes>
-            <Route path='/' element={<Header />}>
-                <Route index element={<Home />}/>
-                <Route path='/product/:id' element={<ProductPage />}/>
-                <Route path='/cart' element={<Cart />}></Route>
-            </Route>
+
+
+
+        rawData ?  <Routes>
+                <Route path='/' element={<Header />}>
+                    <Route index element={<Home />}/>
+                    <Route path='/product/:id' element={<ProductPage rawData={rawData}/>}/>
+                    <Route path='/cart' element={<Cart />}></Route>
+                </Route>
 
 
 
 
-        </Routes>
-
-
-
-
-
-
+            </Routes> : <h1>Loading...</h1>
 
 
     );

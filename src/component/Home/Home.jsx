@@ -6,6 +6,7 @@ import Products from "../Products/Products";
 const Home = () => {
 
     const rawData = useSelector(state => state?.LuLuReducer?.rawData);
+    console.log('rawData---->',rawData)
 
     const filters = rawData?.filters;
 

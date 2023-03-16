@@ -1,11 +1,14 @@
 
 import Product from "./Product";
+import {Link} from "react-router-dom";
+import {findAllByDisplayValue} from "@testing-library/react";
 
 const Products = ({products}) => {
 
 
 
     return (
+
         <div>
 
             <div>
@@ -16,6 +19,7 @@ const Products = ({products}) => {
                         // method 2: create son component
 
                         return <Product key={pindex} product={product} pindex={pindex}/>
+
 
                         // method 1: in the same component
                         // return <div key={pindex}>

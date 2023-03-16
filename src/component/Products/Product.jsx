@@ -2,7 +2,7 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 
-const Products = ({product, pindex}) => {
+const Product = ({product, pindex}) => {
 
     const [colorId, setColorId] = useState(0);
 
@@ -16,7 +16,8 @@ const Products = ({product, pindex}) => {
                         onClick={() => {
                             // todo limit pindex input
                             //pass pindex as ID and find target product index by using pindex in ProductPage
-                            navigate(`product/${pindex}`)
+                            // navigate(`product/${pindex}`)
+                            navigate(`product/${product.productId}`)
                         }}
 
                         src={product?.images[colorId]?.mainCarousel?.media?.split('|')[0]}
@@ -51,4 +52,4 @@ const Products = ({product, pindex}) => {
     )
 }
 
-export default Products;
+export default Product;

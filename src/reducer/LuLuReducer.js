@@ -2,7 +2,7 @@ import {FETCH_ALL_DATA} from "../Helper/Helper";
 
 
 const initState = {
-    rawData: null
+    rawData: null,
 }
 
 export const LuLuReducer = (state=initState, action) => {

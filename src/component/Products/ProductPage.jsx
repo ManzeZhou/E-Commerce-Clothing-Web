@@ -1,13 +1,16 @@
-import {Link, useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {Link, useParams, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {calculateTotalPrice} from "../../Helper/Helper";
+import ErrorPage from "../Error/ErrorPage";
 
 
-const ProductPage = () => {
 
+const ProductPage = ({rawData}) => {
+    const navigate = useNavigate();
 
-    const rawData = useSelector(state => state?.LuLuReducer?.rawData);
+    // const rawData = useSelector(state => state?.LuLuReducer?.rawData);
+
+    console.log('rawData from product page',rawData)
 
     //localstorage can only store string
     localStorage.setItem('rawData', JSON.stringify(rawData));
@@ -18,9 +21,11 @@ const ProductPage = () => {
     console.log('products',products)
 
     const {id} = useParams();
-    console.log(typeof id)
+    // console.log('id',id)
+    //
+    // const currentProduct = products?.[parseInt(id)];
+    const currentProduct = products.find(p => p.productId === id)
 
-    const currentProduct = products?.[parseInt(id)];
 
     console.log('currentProduct',currentProduct)
 
@@ -46,7 +51,7 @@ const ProductPage = () => {
 // size value for shopping cart
     const [sizeValue, setSizeValue] = useState(null);
 // swatch value for shopping cart
-    const [swatchValue, setSwatchValue] = useState(swatches[0]?.swatchAlt);
+    const [swatchValue, setSwatchValue] = useState(swatches?.[0].swatchAlt);
 
     const cartArr = JSON.parse(localStorage.getItem('cartArr'));
 
@@ -156,7 +161,8 @@ const ProductPage = () => {
 
 
     return (
-        <div>
+        //If didn't find current product, jump to error page
+        currentProduct ? <div>
 
             <div>
                 {products && currentProduct && images &&
@@ -487,7 +493,8 @@ const ProductPage = () => {
                 </div>
             </div>
 
-        </div>
+        </div> : <ErrorPage />
+
     )
 }
 

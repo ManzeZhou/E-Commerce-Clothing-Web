@@ -38,7 +38,7 @@ export const Filter = ({filtersData}) => {
                rawData &&
 
                <div>
-                   <GenderFilter gender={gender}/>
+                   <GenderFilter gender={gender} filters={filtersData}/>
                    <CategoryFilter category={category}/>
                    <TypeFilter type={type}/>
                    <ActivityFilter activity={activity}/>
