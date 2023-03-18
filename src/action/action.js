@@ -27,6 +27,13 @@ export const fetchAllDataInAction = () => async dispatch => {
         console.log('res------>', res)
         let data = res.data.rs
 
+        let filters = res.data.rs.filters;
+
+        dispatch({
+            type: 'UPDATE_FILTER',
+            payload: filters,
+        });
+
         dispatch({
             type: FETCH_ALL_DATA,
             payload: data,
@@ -36,18 +43,20 @@ export const fetchAllDataInAction = () => async dispatch => {
     }
 };
 
-export const fetchAllFiltersInAction = (filters) => {
+// update filters
+export const updateFilterCriteria = (filters) => {
     return {
         type: 'FETCH_ALL_FILTERS',
         payload: filters
     }
 }
 
+// post filters to get new products
 export const fetchFilteredProducts = (filters) => async dispatch => {
     try {
 
         let res = await axios.post(LuLuURL, filters)
-        console.log('res------>', res)
+
         let data = res.data.rs
 
         dispatch({

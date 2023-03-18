@@ -1,32 +1,28 @@
 import {useSelector} from "react-redux";
 import {useState} from "react";
+import InputFilter from "./InputFilter";
 
-export const CategoryFilter = ({category}) => {
+export const CategoryFilter = ({category, filters}) => {
 
+    const filterTitle = 'Category'
 
 
     const [hide, setHide] = useState(true)
 
-    const handleHide = (e) => {
+    const handleHide = () => {
         setHide(!hide)
     }
     return (
         <div>
-            <h1>Category</h1>
+            <h1>{filterTitle}</h1>
             {category && category.map((i, index) => {
 
                     // todo read more icon
 
                 if (!hide) {
-                    return <div key={index}>
-                        <input type="checkbox"/>
-                        <label>{i.name}</label>
-                    </div>
+                    return <InputFilter i={i} key={index} filters={filters} filterTitle={filterTitle}/>
                 } else if(index < 5 && hide) {
-                    return <div key={index}>
-                        <input type="checkbox"/>
-                        <label>{i.name}</label>
-                    </div>
+                    return <InputFilter i={i} key={index} filters={filters} filterTitle={filterTitle}/>
                 }
 
             })

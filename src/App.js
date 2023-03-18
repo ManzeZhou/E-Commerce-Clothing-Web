@@ -44,6 +44,7 @@ function App() {
         dispatch(fetchAllDataInAction())
     },[]);
 
+    // pass rawData to product page so that once it goes back to previous page, the data is still there
     const rawData = useSelector(state => state?.LuLuReducer?.rawData);
 
 

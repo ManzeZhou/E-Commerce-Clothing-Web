@@ -6,13 +6,15 @@ import Products from "../Products/Products";
 const Home = () => {
 
     const rawData = useSelector(state => state?.LuLuReducer?.rawData);
-    console.log('rawData---->',rawData)
 
-    const filters = rawData?.filters;
+
+
+    const filters = useSelector(state => state?.LuLuReducer?.filterCriteria);
+
 
     const products = rawData?.products;
 
-    console.log('Home',rawData)
+
 
     return (
         <div>

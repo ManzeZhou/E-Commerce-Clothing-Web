@@ -1,9 +1,10 @@
 import {useSelector} from "react-redux";
 import {useState} from "react";
+import InputFilter from "./InputFilter";
 
- const TypeFilter = ({type}) => {
+ const TypeFilter = ({type, filters}) => {
 
-
+     const filterTitle = 'Type'
 
     const [hide, setHide] = useState(true)
 
@@ -13,21 +14,23 @@ import {useState} from "react";
 
     return (
         <div>
-            <h1>Type</h1>
+            <h1>{filterTitle}</h1>
             {type && type.map((i, index) => {
 
                 // todo aad more icon
 
                 if (!hide) {
-                    return <div key={index}>
-                        <input type="checkbox"/>
-                        <label>{i.name}</label>
-                    </div>
+                    return <InputFilter i={i} key={index} filters={filters} filterTitle={filterTitle}/>
+                    // return <div key={index}>
+                    //     <input type="checkbox"/>
+                    //     <label>{i.name}</label>
+                    // </div>
                 } else if(index < 5 && hide) {
-                    return <div key={index}>
-                        <input type="checkbox"/>
-                        <label>{i.name}</label>
-                    </div>
+                    return <InputFilter i={i} key={index} filters={filters} filterTitle={filterTitle}/>
+                    // return <div key={index}>
+                    //     <input type="checkbox"/>
+                    //     <label>{i.name}</label>
+                    // </div>
                 }
 
             })

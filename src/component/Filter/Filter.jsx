@@ -13,6 +13,8 @@ export const Filter = ({filtersData}) => {
 
     const gender = filtersData?.Gender;
 
+
+
     const category = filtersData?.Category;
 
     const type = filtersData?.Type;
@@ -39,8 +41,8 @@ export const Filter = ({filtersData}) => {
 
                <div>
                    <GenderFilter gender={gender} filters={filtersData}/>
-                   <CategoryFilter category={category}/>
-                   <TypeFilter type={type}/>
+                   <CategoryFilter category={category} filters={filtersData}/>
+                   <TypeFilter type={type} filters={filtersData} />
                    <ActivityFilter activity={activity}/>
                    <SizeFilter size={size}/>
                </div>

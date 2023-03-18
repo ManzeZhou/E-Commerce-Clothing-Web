@@ -22,10 +22,8 @@ const ProductPage = ({rawData}) => {
 
     const {id} = useParams();
     // console.log('id',id)
-    //
     // const currentProduct = products?.[parseInt(id)];
     const currentProduct = products.find(p => p.productId === id)
-
 
     console.log('currentProduct',currentProduct)
 

@@ -14,9 +14,9 @@ const Product = ({product, pindex}) => {
                 <div>
                     <img
                         onClick={() => {
-                            // todo limit pindex input
                             //pass pindex as ID and find target product index by using pindex in ProductPage
                             // navigate(`product/${pindex}`)
+                            // limit id to be productId
                             navigate(`product/${product.productId}`)
                         }}
 
