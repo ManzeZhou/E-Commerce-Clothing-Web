@@ -17,28 +17,31 @@ export const calculateTotalPrice = (cart) => {
     return priceArr.reduce((a, b) => a + b, 0);
 }
 
-export const checkFilterIsChecked = (selected, filters, filterTitle,dispatch, filterName) => {
-    if(selected){
-        let newFilters = {...filters}
-        let GenderArr = newFilters[filterTitle]
-
-        const indexToChange = GenderArr.findIndex(item => item.name === filterName);
-        if(indexToChange !== -1) {
-            GenderArr[indexToChange].isChecked = true;
-            dispatch(updateFilterCriteria(newFilters));
-            dispatch(fetchFilteredProducts(newFilters));
-        }
-    } else {
-        let newFilters = {...filters}
-
-        let GenderArr = newFilters[filterTitle]
-
-        const indexToChange = GenderArr.findIndex(item => item.name === filterName);
-        if(indexToChange !== -1) {
-            GenderArr[indexToChange].isChecked = false;
-            dispatch(updateFilterCriteria(newFilters));
-            dispatch(fetchFilteredProducts(newFilters));
-        }
-    }
-
-}
+// export const checkFilterIsChecked = (selected, filters, filterTitle,dispatch, filterName) => {
+//     if(selected){
+//         let newFilters = {...filters}
+//
+//         let GenderArr = newFilters[filterTitle]
+//
+//         const indexToChange = GenderArr.findIndex(item => item.name === filterName);
+//         if(indexToChange !== -1) {
+//             GenderArr[indexToChange].isChecked = true;
+//             dispatch(updateFilterCriteria(newFilters));
+//             dispatch(fetchFilteredProducts(newFilters));
+//         }
+//     } else {
+//         let newFilters = {...filters}
+//         console.log('newFilters',newFilters)
+//         let GenderArr = newFilters[filterTitle]
+//         console.log('GenderArr',GenderArr)
+//         const indexToChange = GenderArr.findIndex(item => item.name === filterName);
+//         if(indexToChange !== -1) {
+//             GenderArr[indexToChange].isChecked = false;
+//
+//             console.log('GenderArr',GenderArr)
+//             dispatch(updateFilterCriteria(newFilters));
+//             dispatch(fetchFilteredProducts(newFilters));
+//         }
+//     }
+//
+// }

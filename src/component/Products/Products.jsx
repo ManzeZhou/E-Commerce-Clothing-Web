@@ -11,7 +11,7 @@ const Products = ({products}) => {
 
         <div>
 
-            <div>
+            <div style={{display:'grid'}}>
 
                 {products &&
                     products?.map((product, pindex) => {

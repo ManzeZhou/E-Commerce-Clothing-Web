@@ -54,9 +54,9 @@ export const updateFilterCriteria = (filters) => {
 // post filters to get new products
 export const fetchFilteredProducts = (filters) => async dispatch => {
     try {
-
+        console.log('filters from action ----->',filters);
         let res = await axios.post(LuLuURL, filters)
-
+        console.log('new res------>', res)
         let data = res.data.rs
 
         dispatch({

@@ -3,7 +3,7 @@ import InputFilter from "./InputFilter";
 
 
 
-export const GenderFilter = ({gender, filters}) => {
+export const GenderFilter = ({gender, filters, selectedFilters}) => {
 
     const filterTitle = 'Gender'
 
@@ -14,13 +14,7 @@ export const GenderFilter = ({gender, filters}) => {
             <h1>{filterTitle}</h1>
             {gender && gender.map((i, index) => {
 
-                                    return <InputFilter i={i} key={index} filters={filters} filterTitle={filterTitle}/>
-                // (
-                //                         <div key={index}>
-                //                             <input type="checkbox"/>
-                //                             <label>{i.name}</label>
-                //                         </div>
-                //                     )
+                                    return <InputFilter i={i} key={index} filters={filters} filterTitle={filterTitle} selectedFilters={selectedFilters}/>
 
                             })
                         }
