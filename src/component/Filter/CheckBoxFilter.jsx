@@ -2,9 +2,8 @@
 import {useState} from "react";
 import InputFilter from "./InputFilter";
 
-export const CheckBoxFilter = ({category, filters, filterTitle, titleValue, setFilters}) => {
+export const CheckBoxFilter = ({category, filters, filterTitle, titleValue, setFilters, filtersData}) => {
 
-    // const filterTitle = 'Category'
 
 
     const [hide, setHide] = useState(true)
@@ -13,23 +12,6 @@ export const CheckBoxFilter = ({category, filters, filterTitle, titleValue, setF
         setHide(!hide)
     }
     return (
-        // <div>
-        //     <h1>{filterTitle}</h1>
-        //     {category && category.map((i, index) => {
-        //
-        //         // todo read more icon
-        //
-        //         if (!hide) {
-        //             return <InputFilter i={i} key={index} filters={filters} filterTitle={filterTitle}/>
-        //         } else if(index < 5 && hide) {
-        //             return <InputFilter i={i} key={index} filters={filters} filterTitle={filterTitle}/>
-        //         }
-        //
-        //     })
-        //     }
-        //
-        //     <button onClick={() => {handleHide()}}>{hide ? 'show more' : 'show less'}</button>
-        // </div>
 
         <div>
             <h1>{filterTitle}</h1>
@@ -37,10 +19,13 @@ export const CheckBoxFilter = ({category, filters, filterTitle, titleValue, setF
 
                 // todo read more icon
 
-                if (!hide) {
-                    return <InputFilter i={i} key={index} filters={filters} filterTitle={filterTitle} setFilters={setFilters}/>
-                } else if(index < 5 && hide) {
-                    return <InputFilter i={i} key={index} filters={filters} filterTitle={filterTitle} setFilters={setFilters}/>
+                // if (!hide) {
+                //     return <InputFilter i={i} key={index} filterTitle={filterTitle}  filtersData={filtersData}/>
+                // } else if(index < 5 && hide) {
+                //     return <InputFilter i={i} key={index} filterTitle={filterTitle}  filtersData={filtersData}/>
+                // }
+                if(index < 3) {
+                    return <InputFilter i={i} key={index} filterTitle={filterTitle}  filtersData={filtersData}/>
                 }
 
             })

@@ -1,66 +1,46 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {checkFilterIsChecked} from "../../Helper/Helper";
-import {fetchFilteredProducts, updateFilterCriteria} from "../../action/action";
+import {fetchAllDataInAction, fetchFilteredProducts} from "../../action/action";
 
-const InputFilter = ({i, filters, filterTitle, setFilters}) => {
+const InputFilter = ({i, filterTitle, filtersData}) => {
 
-
-    const [selected, setSelected] = useState(false);
-
-    // todo selected changed at the first time and fetch 45 products at the first render
-    // first null , then false?
+    const dispatch = useDispatch();
 
 
-    useEffect(() => {
-        console.log(selected);
+            const handleCheck = (e) => {
+                console.log(`${filterTitle}  ${i.name} isChecked`, e.target.checked);
 
-// todo check if more than one of the checkbox is checked, otherwise do no fetch filter data
-        // checkFilterIsChecked(selected, filters,filterTitle,dispatch, i.name);
-        if (filters) {
-            if (selected) {
-                console.log('filters', filters)
-                let newFilters = {...filters}
+                    let newFilters = {...filtersData}
 
-                let arrToChange = newFilters[filterTitle]
+                    let arrToChange = newFilters[filterTitle]
 
-                const indexToChange = arrToChange.findIndex(item => item.name === i.name);
-                if (indexToChange !== -1) {
-                    arrToChange[indexToChange].isChecked = true;
-                    // dispatch(updateFilterCriteria(newFilters));
-                    // dispatch(fetchFilteredProducts(newFilters));
-                    setFilters(newFilters)
-                    console.log('filters', filters)
-                }
-            } else {
-                // todo if all of the ischecked are false, do nothing
 
-                let newFilters = {...filters}
-                console.log('test', newFilters, filterTitle)
-                let arrToChange = newFilters[filterTitle]
+                    const indexToChange = arrToChange.findIndex(item => item.name === i.name);
 
-                const indexToChange = arrToChange.findIndex(item => item.name === i.name);
-                if (indexToChange !== -1) {
-                    // arrToChange[indexToChange].isChecked = true;
-                    if (arrToChange[indexToChange].isChecked) {
-                        arrToChange[indexToChange].isChecked = false
-                        setFilters(newFilters);
-                        console.log('filters', filters)
+                    if (indexToChange !== -1) {
+                        arrToChange[indexToChange].isChecked = e.target.checked;
+                        console.log('newFilters', newFilters)
+                        // dispatch(fetchFilteredProducts(newFilters));
+
+                        const isAllFalse = Object.values(newFilters).every(filterArray => filterArray.every(filterObj => !filterObj.isChecked));
+                        console.log('isAllFalse', isAllFalse)
+                        if (isAllFalse) {
+                            console.log("All filters are unchecked");
+                            dispatch(fetchAllDataInAction())
+                        } else {
+                            console.log("At least one filter is checked");
+                            dispatch(fetchFilteredProducts(newFilters));
+                        }
                     }
 
-
-                }
             }
-        }
 
-    }, [selected]);
+
 
 
     return (
         <div>
-            <input type="checkbox" onClick={() => {
-                setSelected(!selected)
-            }}/>
+            <input type="checkbox" checked={i.isChecked} onClick={(e) => {handleCheck(e)}}/>
             <label>{i.name}</label>
         </div>
     )

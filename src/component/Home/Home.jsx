@@ -1,15 +1,16 @@
 import {useSelector} from "react-redux";
 import {Filter} from "../Filter/Filter";
 import Products from "../Products/Products";
-import {Link} from "react-router-dom";
+
 
 
 const Home = () => {
 
-    const rawData = useSelector(state => state?.LuLuReducer?.rawData);
+    // const rawData = useSelector(state => state?.LuLuReducer?.rawData);
+    const rawData = useSelector(state => state?.LuLuReducer?.filteredData);
 
-
-    const filters = useSelector(state => state?.LuLuReducer?.filterCriteria);
+    // const filters = useSelector(state => state?.LuLuReducer?.rawData.filters);
+    const filters = useSelector(state => state?.LuLuReducer?.filteredData.filters);
 
 
     const products = rawData?.products;

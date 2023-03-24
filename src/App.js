@@ -13,6 +13,7 @@ import ProductPage from "./component/Products/ProductPage";
 import home from "./component/Home/Home";
 import Header from "./component/Header";
 import Cart from "./component/Cart/Cart";
+import {filtersHelper} from "./Helper/Helper";
 
 
 
@@ -38,6 +39,8 @@ function App() {
 // }, [])
 
 
+
+
     //method 2
 
     useEffect(() => {
@@ -45,8 +48,9 @@ function App() {
     },[]);
 
     // pass rawData to product page so that once it goes back to previous page, the data is still there
-    const rawData = useSelector(state => state?.LuLuReducer?.rawData);
+    // const rawData = useSelector(state => state?.LuLuReducer?.rawData);
 
+    const rawData = useSelector(state => state?.LuLuReducer?.filteredData);
 
 
 
