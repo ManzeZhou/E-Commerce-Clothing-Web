@@ -40,7 +40,7 @@ const InputFilter = ({i, filterTitle, filtersData}) => {
 
     return (
         <div>
-            <input type="checkbox" checked={i.isChecked} onClick={(e) => {handleCheck(e)}}/>
+            <input type="checkbox" defaultChecked={i.isChecked} onClick={(e) => {handleCheck(e)}}/>
             <label>{i.name}</label>
         </div>
     )

@@ -1,11 +1,11 @@
-import {useDispatch, useSelector} from "react-redux";
+
 
 import CheckBoxFilter from "./CheckBoxFilter";
 
 
 
 export const Filter = ({filtersData}) => {
-    const dispatch = useDispatch();
+
 
 
 

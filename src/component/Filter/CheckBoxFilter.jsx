@@ -2,7 +2,7 @@
 import {useState} from "react";
 import InputFilter from "./InputFilter";
 
-export const CheckBoxFilter = ({category, filters, filterTitle, titleValue, setFilters, filtersData}) => {
+export const CheckBoxFilter = ({filterTitle, titleValue, filtersData}) => {
 
 
 

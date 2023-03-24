@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -9,6 +10,8 @@ import rootReducer from "./reducer";
 import thunk from "redux-thunk";
 import {BrowserRouter} from "react-router-dom";
 import Header from "./component/Header";
+
+
 
 
 
