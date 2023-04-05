@@ -3,7 +3,6 @@ import axios from "axios";
 import {FETCH_ALL_DATA, LuLuURL} from "../Helper/Helper";
 
 
-
 // method 1
 
 // export const fetchAllDataInAction = (data)  => {
@@ -863,16 +862,43 @@ export const fetchAllDataInAction = () => async dispatch => {
 export const fetchFilteredProducts = (filters) => async dispatch => {
     try {
 
-        axios.post(LuLuURL, filters)
-            .then(res => {
-                console.log('new res', res)
-                const data = res.data.rs;
-                dispatch({
-                    type: 'Fetch_Filtered_Data',
-                    payload: data,
-                })
-            })
-            .catch(e => {console.log(e)})
+        // axios.post(LuLuURL, filters)
+        //     .then(res => {
+        //         console.log('new res', res)
+        //         let data = res.data.rs;
+        //         dispatch({
+        //             type: 'Fetch_Filtered_Data',
+        //             payload: data,
+        //         })
+        //     })
+
+        let total_items = null;
+        let all_data = {};
+        let page_number = 1;
+        let productsArr = [];
+// get all pages of data
+        while (total_items === null || productsArr.length < total_items) {
+            const response = await axios.post(`${LuLuURL}&page=${page_number}`, filters);
+            const {products, pageParams} = response.data.rs;
+            const {totalProducts} = pageParams;
+
+            productsArr = [...productsArr, ...products];
+            console.log('productsArr',productsArr)
+            all_data = {...all_data, ...response.data.rs};
+            all_data.products = [...productsArr];
+
+            total_items = totalProducts;
+            console.log('total_Items', total_items);
+            page_number++;
+            console.log('page_number --->', page_number)
+            console.log('all_data ---->', all_data)
+        }
+
+        dispatch({
+            type: 'Fetch_Filtered_Data',
+            payload: all_data,
+        })
+
 
         // let res = await axios.post(LuLuURL, filters);
         // let data = res.data.rs;
@@ -900,7 +926,7 @@ export const fetchFilteredProducts = (filters) => async dispatch => {
         console.log(err);
     }
 };
-// get subtotalPrice from shopping cart
+
 
 
 

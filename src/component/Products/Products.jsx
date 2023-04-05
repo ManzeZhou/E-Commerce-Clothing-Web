@@ -1,11 +1,10 @@
 
 import Product from "./Product";
-import {Link} from "react-router-dom";
-import {findAllByDisplayValue} from "@testing-library/react";
+
 
 const Products = ({products}) => {
 
-
+// todo grid layout and pagination
 
     return (
 
