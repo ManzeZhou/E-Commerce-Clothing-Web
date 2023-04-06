@@ -3,7 +3,7 @@ import {calculateTotalPrice} from "../../Helper/Helper";
 import cart from "./Cart";
 
 const CartContent = ({i, setCartArr, setSubtotal, setItemQty, setEdit, setProductId, id, setIndex, cartArr}) => {
-
+    console.log('id ---->', i.id)
     const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     console.log('qty----->', parseInt(i.qty))
@@ -110,7 +110,8 @@ const CartContent = ({i, setCartArr, setSubtotal, setItemQty, setEdit, setProduc
                 <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                     <button onClick={() => {
                       setEdit(true);
-                      setProductId(parseInt(i.id));
+                      // setProductId(parseInt(i.id));
+                        setProductId(i.id)
                       setIndex(id);
                     }}>Edit</button>
 

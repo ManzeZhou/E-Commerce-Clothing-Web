@@ -9,6 +9,8 @@ const Cart = () => {
     //update cartArr and CartContent display when remove item from cart
     const [cartArr, setCartArr] = useState(JSON.parse(localStorage.getItem('cartArr')));
 
+    console.log('cartArr ---->',cartArr)
+
     // update subtotal price when changing items qty and remove items from cart
     const [subtotal, setSubtotal] = useState(JSON.parse(localStorage.getItem('subtotalPrice')));
 

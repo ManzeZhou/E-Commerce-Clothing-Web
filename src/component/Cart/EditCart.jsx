@@ -1,11 +1,17 @@
 import {useEffect, useState} from "react";
 
 const EditCart = ({setEdit, productId, cartArr, index, setCartArr}) => {
+    console.log('productId ---->',productId)
 
     const rawData = JSON.parse(localStorage.getItem('rawData'));
-    const {products} = rawData;
 
-    const currentEditProduct = products[productId];
+    const {products} = rawData;
+    console.log('products ----->', products);
+
+    const currentEditProduct = products.find(p => p.productId === productId)
+
+    // const currentEditProduct = products[productId];
+
     console.log('currentEditProduct', currentEditProduct);
 
     const name = currentEditProduct?.name;

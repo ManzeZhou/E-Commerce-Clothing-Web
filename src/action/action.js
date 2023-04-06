@@ -826,14 +826,8 @@ const filters = {
 export const fetchAllDataInAction = () => async dispatch => {
     try {
         let res = await axios.get(LuLuURL);
-
-
-        console.log('res------>', res);
-
         let data = res.data.rs
 
-
-        console.log('first filters', data.filters);
 
 
         // let filters = res.data.rs.filters;
@@ -883,15 +877,12 @@ export const fetchFilteredProducts = (filters) => async dispatch => {
             const {totalProducts} = pageParams;
 
             productsArr = [...productsArr, ...products];
-            console.log('productsArr',productsArr)
             all_data = {...all_data, ...response.data.rs};
             all_data.products = [...productsArr];
 
             total_items = totalProducts;
             console.log('total_Items', total_items);
             page_number++;
-            console.log('page_number --->', page_number)
-            console.log('all_data ---->', all_data)
         }
 
         dispatch({
